@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TranZed 8 Fidelity Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--tcg-blue:#0047BB;--tcg-orange:#F47721;--tcg-yellow:#FFDD4F;--tcg-purple:#953192;
+--tcg-cyan:#00ACCD;--tcg-green:#2CB34A;--tcg-pink:#EE3780;--tcg-red-orange:#EF462A;
+--tcg-dark-blue:#002C43;--w:#FFF;--lg:#F5F6F8;--mg:#E2E4E9;--dg:#333;
+--p1:#F47721;--p1l:#FEF0E2;--p2:#2CB34A;--p2l:#E5F7EA;--p3:#00ACCD;--p3l:#E0F5FA;
+--p4:#953192;--p4l:#F0E2EF;--p5:#EF462A;--p5l:#FDEBE7;--p6:#0047BB;--p6l:#E0ECFF;
+--p7:#EE3780;--p7l:#FDE6EF;--p8:#FFDD4F;--p8l:#FFF9E0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Mulish',sans-serif;background:var(--lg);color:var(--dg);line-height:1.5;-webkit-font-smoothing:antialiased;}
+
+.hdr{background:linear-gradient(135deg,var(--tcg-blue),var(--tcg-dark-blue));position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;flex-wrap:wrap;gap:12px;}
+.hdr-brand{display:flex;align-items:center;gap:14px;}
+.logo{width:42px;height:42px;background:var(--tcg-orange);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;font-family:'Poppins',sans-serif;box-shadow:0 2px 8px rgba(244,119,33,.4);}
+.hdr-brand h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:19px;color:#fff;}
+.hdr-brand .sub{font-size:11px;color:rgba(255,255,255,.65);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
+.hdr-acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.bh{padding:8px 16px;border-radius:8px;font-family:'Mulish',sans-serif;font-weight:700;font-size:12px;cursor:pointer;border:none;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;}
+.bh-o{background:var(--tcg-orange);color:#fff;}.bh-o:hover{background:#e06510;transform:translateY(-1px);}
+.bh-g{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);}.bh-g:hover{background:rgba(255,255,255,.18);}
+.save-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;background:#2CB34A;animation:pulse 2s infinite;}
+.save-status{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.3px;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.mtabs{display:flex;padding:0 24px;gap:4px;}
+.mt{padding:11px 24px;font-family:'Mulish',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.7px;border:none;cursor:pointer;border-radius:8px 8px 0 0;transition:all .2s;color:#fff;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-bottom:none;}
+.mt.act{color:var(--tcg-dark-blue);background:var(--lg);border-color:var(--lg);}.mt:not(.act):hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.5);}
+
+.main{max-width:940px;margin:0 auto;padding:20px 16px 100px;}
+.pnl{display:none;}.pnl.act{display:block;}
+
+.card{background:#fff;border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.card h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:var(--tcg-blue);margin-bottom:16px;}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.igrid{grid-template-columns:1fr;}}
+.fg label{display:block;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--tcg-blue);margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 12px;border:2px solid var(--mg);border-radius:9px;font-family:'Mulish',sans-serif;font-size:14px;color:var(--dg);background:var(--lg);transition:border-color .2s,box-shadow .2s;}
+.fg textarea{resize:vertical;min-height:70px;font-size:13px;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--tcg-blue);box-shadow:0 0 0 3px rgba(0,71,187,.1);background:#fff;}
+
+.rk{background:#fff;border-radius:14px;padding:14px 24px;margin-bottom:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:12px;}
+.rk-l{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--tcg-blue);margin-right:6px;}
+.rk-i{display:flex;align-items:center;gap:5px;color:#555;}
+.kn{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+.k4{background:#2CB34A;}.k3{background:#00ACCD;}.k2{background:#F47721;}.k1{background:#DC3545;}
+.kd{width:1px;height:18px;background:var(--mg);margin:0 4px;}
+
+.crt{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.crb{padding:10px 20px;border-radius:10px;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;cursor:pointer;border:2px solid var(--mg);background:#fff;color:#888;transition:all .2s;}
+.crb.act{border-color:var(--tcg-orange);background:var(--tcg-orange);color:#fff;}
+.crb:not(.act):hover{border-color:var(--tcg-orange);color:var(--tcg-orange);}
+.crb .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:6px;background:#ccc;}
+.crb.act .dot{background:rgba(255,255,255,.6);}.crb.hd .dot{background:var(--tcg-green);}.crb.act.hd .dot{background:rgba(255,255,255,.8);}
+.btn-add{padding:10px 16px;border-radius:10px;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;cursor:pointer;border:2px dashed var(--mg);background:transparent;color:#aaa;transition:all .2s;}
+.btn-add:hover{border-color:var(--tcg-blue);color:var(--tcg-blue);}
+.crp{display:none;}.crp.act{display:block;}
+
+.pc{background:#fff;border-radius:14px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .2s;}
+.pc:hover{box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.ph{display:flex;align-items:center;padding:14px 20px;gap:12px;cursor:pointer;user-select:none;}
+.pn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:#fff;flex-shrink:0;}
+.pn-sm{width:34px;height:34px;font-size:15px;}
+.ptx{flex:1;}.ptx h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:var(--dg);}
+.ptx .ps{font-size:11px;color:#999;margin-top:1px;}
+.pbdg{padding:5px 14px;border-radius:18px;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;min-width:52px;text-align:center;}
+.pex{font-size:16px;color:#bbb;transition:transform .3s;}.pc.open .pex{transform:rotate(180deg);}
+.pbd{max-height:0;overflow:hidden;transition:max-height .4s;}.pc.open .pbd{max-height:3000px;}
+.pcx{padding:0 20px 18px;}
+
+.anchor{font-size:13px;font-weight:700;color:var(--dg);line-height:1.55;margin-bottom:8px;}
+.lf{display:flex;align-items:flex-start;gap:8px;padding:10px 14px;border-radius:10px;margin-bottom:14px;font-size:13px;line-height:1.55;color:#555;}
+.lf-ic{flex-shrink:0;width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:1px;}
+.lf-lb{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.4px;margin-right:4px;white-space:nowrap;}
+.lf-tx{font-style:italic;}
+
+.rr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.rl{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tcg-blue);min-width:50px;}
+.rbs{display:flex;gap:6px;}
+.rb{display:flex;flex-direction:column;align-items:center;justify-content:center;width:80px;height:48px;border-radius:10px;border:2px solid var(--mg);background:#fff;font-family:'Mulish',sans-serif;cursor:pointer;transition:all .15s;padding:4px 2px;}
+.rb .rbn{font-weight:800;font-size:16px;color:#888;line-height:1;}
+.rb .rbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:#aaa;line-height:1;margin-top:2px;}
+.rb:hover{border-color:var(--tcg-blue);transform:translateY(-1px);}
+.rb.s4{background:#2CB34A;border-color:#2CB34A;}.rb.s4 .rbn,.rb.s4 .rbl{color:#fff;}
+.rb.s3{background:#00ACCD;border-color:#00ACCD;}.rb.s3 .rbn,.rb.s3 .rbl{color:#fff;}
+.rb.s2{background:#F47721;border-color:#F47721;}.rb.s2 .rbn,.rb.s2 .rbl{color:#fff;}
+.rb.s1{background:#DC3545;border-color:#DC3545;}.rb.s1 .rbn,.rb.s1 .rbl{color:#fff;}
+@media(max-width:500px){.rb{width:64px;height:44px;}.rb .rbn{font-size:14px;}}
+
+.ni{width:100%;margin-top:12px;padding:10px 12px;border:2px solid var(--mg);border-radius:9px;font-family:'Mulish',sans-serif;font-size:13px;color:var(--dg);background:var(--lg);resize:vertical;min-height:50px;transition:border-color .2s;}
+.ni:focus{outline:none;border-color:var(--tcg-blue);background:#fff;}
+
+.sc{background:#fff;border-radius:14px;padding:24px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.sc h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;color:var(--tcg-blue);margin-bottom:18px;text-align:center;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+@media(max-width:700px){.sg{grid-template-columns:repeat(2,1fr);}}
+.st{border-radius:12px;padding:14px 10px;text-align:center;}
+.stl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;opacity:.75;margin-bottom:4px;}
+.stv{font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;}
+.ob{text-align:center;padding:22px;border-radius:14px;background:linear-gradient(135deg,var(--tcg-blue),var(--tcg-dark-blue));color:#fff;}
+.obl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.75;}
+.obp{font-family:'Poppins',sans-serif;font-weight:700;font-size:44px;line-height:1.1;margin:4px 0;}
+.obs{font-size:13px;font-weight:600;}
+.fb{height:8px;background:rgba(255,255,255,.18);border-radius:4px;margin-top:10px;overflow:hidden;}
+.ff{height:100%;border-radius:4px;transition:width .5s,background .3s;}
+
+/* Site-level principle rows */
+.slr{display:flex;align-items:stretch;background:#fff;border-radius:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden;transition:box-shadow .2s;}
+.slr:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.slr-left{width:200px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 12px;text-align:center;gap:6px;}
+.slr-left .slr-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:var(--dg);line-height:1.3;}
+.slr-left .slr-score{font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;border-radius:10px;padding:4px 14px;}
+.slr-left .slr-score span{font-size:12px;opacity:.6;}
+.slr-right{flex:1;padding:14px 18px;border-left:1px solid #f0f0f0;display:flex;flex-direction:column;}
+.slr-right label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#999;margin-bottom:4px;}
+.slr-right textarea{flex:1;width:100%;padding:8px 10px;border:2px solid var(--mg);border-radius:9px;font-family:'Mulish',sans-serif;font-size:12px;color:var(--dg);background:var(--lg);resize:vertical;min-height:60px;transition:border-color .2s;}
+.slr-right textarea:focus{outline:none;border-color:var(--tcg-blue);background:#fff;}
+@media(max-width:600px){.slr{flex-direction:column;}.slr-left{width:100%;flex-direction:row;padding:12px 16px;gap:12px;}.slr-right{border-left:none;border-top:1px solid #f0f0f0;}}
+
+/* Classroom impressions on site level */
+.ci-row{display:flex;align-items:center;gap:14px;padding:14px 20px;background:#fff;border-radius:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.ci-label{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:var(--tcg-blue);min-width:140px;flex-shrink:0;}
+.ci-val{font-size:13px;color:var(--dg);}
+.ci-val em{color:#888;font-style:italic;}
+.ci-group{margin-bottom:14px;}
+.ci-group-title{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--tcg-orange);margin-bottom:8px;padding-left:4px;}
+
+.no-data{text-align:center;padding:40px 20px;color:#999;font-size:14px;}
+.no-data .nd-i{font-size:32px;margin-bottom:8px;}
+
+.restored-banner{background:var(--tcg-green);color:#fff;text-align:center;padding:10px;font-weight:700;font-size:13px;cursor:pointer;transition:opacity .3s;}
+.restored-banner:hover{opacity:.9;}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--tcg-dark-blue);color:#fff;padding:12px 24px;border-radius:10px;font-weight:700;font-size:13px;z-index:200;transition:transform .3s;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* Email reminder modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:#fff;border-radius:16px;padding:32px;max-width:480px;width:90%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3);animation:modalIn .3s;}
+@keyframes modalIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-box .modal-icon{font-size:48px;margin-bottom:12px;}
+.modal-box h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:20px;color:var(--tcg-blue);margin-bottom:8px;}
+.modal-box .modal-msg{font-size:14px;color:#555;margin-bottom:16px;line-height:1.6;}
+.modal-box .modal-email{background:var(--p1l);border-radius:10px;padding:14px 18px;text-align:left;margin-bottom:16px;font-size:14px;}
+.modal-box .modal-email b{color:var(--tcg-dark-blue);}
+.modal-box .modal-email a{color:var(--tcg-blue);text-decoration:none;font-weight:700;}
+.modal-box .modal-btn{padding:12px 32px;border-radius:10px;font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;cursor:pointer;border:none;background:var(--tcg-orange);color:#fff;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;}
+.modal-box .modal-btn:hover{background:#e06510;transform:translateY(-1px);}
+
+/* Sticky footer bar */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;background:var(--tcg-dark-blue);color:#fff;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;z-index:90;box-shadow:0 -2px 10px rgba(0,0,0,.15);}
+.footer-bar .fb-email{opacity:.8;}
+.footer-bar .fb-email a{color:var(--tcg-yellow);text-decoration:none;}
+.footer-bar .fb-progress{display:flex;align-items:center;gap:8px;}
+.footer-bar .fb-progress .prog-dots{display:flex;gap:4px;}
+.footer-bar .fb-progress .prog-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;}
+.footer-bar .fb-progress .prog-dot.done{background:var(--tcg-green);}
+.footer-bar .fb-progress .prog-dot.active{background:var(--tcg-orange);}
+
+/* Bigger export button */
+.bh-o{background:var(--tcg-orange);color:#fff;font-size:14px;padding:10px 22px;box-shadow:0 2px 8px rgba(244,119,33,.4);}.bh-o:hover{background:#e06510;transform:translateY(-1px);box-shadow:0 4px 12px rgba(244,119,33,.5);}
+
+@media print{
+.hdr{position:static;box-shadow:none;}.hdr-acts,.mtabs,.save-status,.restored-banner,.footer-bar,.modal-overlay{display:none!important;}
+.pbd{max-height:none!important;}.pc{break-inside:avoid;box-shadow:none;border:1px solid #ddd;}
+body{background:#fff;}.main{max-width:100%;padding:0 12px;}
+.card,.sc,.slr,.ci-row{box-shadow:none;border:1px solid #ddd;}
+}
+</style>
+</head>
+<body>
+
+<div id="restored-banner" class="restored-banner" style="display:none" onclick="this.style.display='none'">✓ Previous session restored — click to dismiss</div>
+
+<header class="hdr">
+<div class="hdr-top">
+<div class="hdr-brand"><div class="logo">T8</div>
+<div><h1>TranZed 8 Fidelity Assessment</h1><div class="sub">The Children's Guild &bull; Transformation Education</div></div></div>
+<div class="hdr-acts">
+<span class="save-status"><span class="save-dot"></span>Auto-saving</span>
+<button class="bh bh-o" onclick="exportCSV()">⬇ Export All Data</button>
+<button class="bh bh-g" onclick="window.print()">🖨 Print</button>
+<button class="bh bh-g" onclick="clearAll()">✕ Clear</button>
+</div></div>
+<nav class="mtabs">
+<button class="mt act" onclick="mainTab('cs',this)">Classroom Snapshots</button>
+<button class="mt" onclick="mainTab('sl',this)">📋 Site-Level Fidelity</button>
+</nav>
+</header>
+
+<main class="main">
+
+<!-- ========== CLASSROOM SNAPSHOTS ========== -->
+<div id="pnl-cs" class="pnl act">
+<div class="card"><h2>Visit Details</h2>
+<div class="igrid">
+<div class="fg"><label>Program / Site</label>
+<select id="cs-site" onchange="autoSave()"><option value="">Select site...</option>
+<option>Transformation Academy</option><option>Monarch Academy Glen Burnie</option>
+<option>Monarch Academy Annapolis</option><option>Monarch Global Academy</option>
+<option>Baltimore</option><option>DC</option><option>Prince George's County</option>
+<option>OMHC</option><option>TFC</option><option>Other</option></select></div>
+<div class="fg"><label>Observer</label><input type="text" id="cs-obs" placeholder="Your name" oninput="autoSave()"></div>
+<div class="fg"><label>Date</label><input type="date" id="cs-date" onchange="autoSave()"></div>
+</div></div>
+
+<div class="rk"><span class="rk-l">Rating Scale:</span>
+<div class="rk-i"><span class="kn k4">4</span> Embedded</div><div class="kd"></div>
+<div class="rk-i"><span class="kn k3">3</span> Developing</div><div class="kd"></div>
+<div class="rk-i"><span class="kn k2">2</span> Emerging</div><div class="kd"></div>
+<div class="rk-i"><span class="kn k1">1</span> Not Yet</div></div>
+
+<div class="crt" id="crt"></div>
+<div id="crps"></div>
+</div>
+
+<!-- ========== SITE-LEVEL FIDELITY ========== -->
+<div id="pnl-sl" class="pnl">
+<div class="card"><h2>Observer Site Visit Report</h2>
+<div class="igrid">
+<div class="fg"><label>Program / Site</label>
+<select id="sl-site" onchange="autoSave()"><option value="">Select site...</option>
+<option>Transformation Academy</option><option>Monarch Academy Glen Burnie</option>
+<option>Monarch Academy Annapolis</option><option>Monarch Global Academy</option>
+<option>Baltimore</option><option>DC</option><option>Prince George's County</option>
+<option>OMHC</option><option>TFC</option><option>Other</option></select></div>
+<div class="fg"><label>Date</label><input type="date" id="sl-date" onchange="autoSave()"></div>
+<div class="fg"><label>Observer</label><input type="text" id="sl-obs" placeholder="Your name" oninput="autoSave()"></div>
+<div class="fg"><label>Setting</label>
+<select id="sl-setting" onchange="autoSave()"><option value="">Select...</option><option>School</option><option>Program</option><option>Other</option></select></div>
+</div></div>
+
+<!-- Classroom impressions pulled over -->
+<div class="card" id="sl-impr-card" style="display:none">
+<h2>Classroom Impressions</h2>
+<div id="sl-impr"></div>
+</div>
+
+<!-- Principle scores + comments -->
+<div id="sl-rows"></div>
+
+<div class="sc" id="sl-scores" style="display:none">
+<h2>Site Fidelity Score</h2>
+<div class="sg" id="sl-grid"></div>
+<div class="ob">
+<div class="obl">Overall Site Fidelity</div>
+<div class="obp" id="sl-pct">—</div>
+<div class="obs" id="sl-sts">—</div>
+<div class="fb"><div class="ff" id="sl-ff" style="width:0%"></div></div>
+</div></div>
+
+<div class="card" style="margin-top:16px">
+<h2>Overall School Impressions</h2>
+<div class="fg" style="margin-bottom:14px"><label>Overall School Culture Impression</label>
+<textarea id="sl-culture" placeholder="What is the overall tone and culture you experienced? How do adults and students interact? Does the environment feel aligned with TCG values?" oninput="slExtra.culture=this.value;autoSave()"></textarea></div>
+<div class="fg"><label>Observations Outside Classrooms (hallways, common areas, staff interactions)</label>
+<textarea id="sl-outside" placeholder="What did you observe outside of classrooms? Hallways, front office, cafeteria, staff-to-staff interactions, Culture Card happening, values visible in common spaces?" oninput="slExtra.outside=this.value;autoSave()"></textarea></div>
+</div>
+</div>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="email-modal" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="modal-box">
+<div class="modal-icon">✅</div>
+<h3>Data Exported!</h3>
+<p class="modal-msg">Your file has been downloaded. Now email it:</p>
+<div class="modal-email">
+<b>To:</b> <a href="mailto:garciae@childrensguild.org">garciae@childrensguild.org</a><br>
+<b>CC:</b> <a href="mailto:bdaniels@childrensguild.org">bdaniels@childrensguild.org</a><br>
+<b>Subject:</b> TranZed [School Name] [Date]
+</div>
+<button class="modal-btn" onclick="document.getElementById('email-modal').classList.remove('show')">Got It</button>
+</div>
+</div>
+
+<div class="footer-bar">
+<div class="fb-progress" id="fb-progress">
+<span id="progress-text">0 classrooms rated</span>
+<div class="prog-dots" id="prog-dots"></div>
+</div>
+<div class="fb-email">
+Email results to: <a href="mailto:garciae@childrensguild.org?cc=bdaniels@childrensguild.org&subject=TranZed">garciae@childrensguild.org</a>
+</div>
+</div>
+
+<script>
+const P=[
+{num:1,name:"Values-Infused Culture",color:"var(--p1)",light:"var(--p1l)",tools:"Culture Card, Wisdom Principles, Character Education",
+anchor:"Adults explicitly reference and model TCG values in interactions with students",
+lookfor:"Values language used in adult-student interactions, character strengths acknowledged, quality work recognized and celebrated, culture aligned with mission and vision"},
+{num:2,name:"Focus on Well-Being",color:"var(--p2)",light:"var(--p2l)",tools:"Holistic Report Card, Student-Led Conferences, Community Meetings",
+anchor:"Adults use mindfulness or stress-reduction strategies and build positive relationships that address the whole child",
+lookfor:"Mindfulness or calming activities, positive adult-student interactions, attention to emotional and social needs, strategies that help children regulate emotions and build resilience"},
+{num:3,name:"Enriched Environments",color:"var(--p3)",light:"var(--p3l)",tools:"Document Panels, Kiosks, Murals, PBL, Experiential Learning",
+anchor:"The environment is intentionally designed to communicate values and display current student learning",
+lookfor:"Student work displayed, values-aligned visuals, evidence of project-based or experiential learning, environment stimulates intellect and radiates organizational messages"},
+{num:4,name:"Brain Literacy",color:"var(--p4)",light:"var(--p4l)",tools:"Brain Paths, Play Intensity, Enhanced Nutrition, ACEs",
+anchor:"Brain-compatible practices are used (movement, novelty, breaks) and adults apply trauma/ACEs knowledge in their responses",
+lookfor:"Movement breaks, varied instructional strategies, brain science language, trauma-informed adult responses, children and staff understand how the brain learns"},
+{num:5,name:"Behavior Motivation",color:"var(--p5)",light:"var(--p5l)",tools:"MSDR, Student Support Center, PBIS, No-Suspension Supports",
+anchor:"Positive behavior supports are actively implemented and adults use restorative or trauma-informed responses instead of punitive ones",
+lookfor:"PBIS signage and systems active, positive reinforcement observed, restorative language, de-escalation strategies, environments support self-regulation and sensory integration"},
+{num:6,name:"Community Influence",color:"var(--p6)",light:"var(--p6l)",tools:"Community Engagement, Classroom Communities, Restorative Practices",
+anchor:"Community-building practices are implemented and students contribute to the community",
+lookfor:"Evidence of class meetings or circles, collaborative structures, student roles or contributions visible, family engagement in academic and social-emotional learning"},
+{num:7,name:"Arts Enhancement",color:"var(--p7)",light:"var(--p7l)",tools:"Arts Integration, Performance, Art Therapy",
+anchor:"Arts are integrated across content areas and students have opportunities to create and express through art",
+lookfor:"Art displayed or in progress, arts integrated into lessons, creative expression supported, art used for communication, self-expression, and healing"},
+{num:8,name:"Ownership Mindset",color:"var(--p8)",light:"var(--p8l)",tools:"Collaborative Problem-Solving, Restorative Conferences",
+anchor:"Adults model ownership and students take ownership of their learning through voice, choice, and collaborative problem-solving",
+lookfor:"Student choice evident, students sharing or presenting, collaborative problem-solving, adults model accountability by examining their own contributions first"}
+];
+
+const MAX_CR=4;let numCR=1;const csD={};const slComments={};const slExtra={culture:'',outside:''};
+function initCR(i){if(!csD[i])csD[i]={r:{},n:{},teacher:'',impr:{strong:'',grow:''}};}
+
+const SAVE_KEY='tranzed8_session';let saveTimer=null;
+function autoSave(){if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(doSave,800);}
+function doSave(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({
+numCR,csD,slComments,slExtra,
+meta:{csSite:v('cs-site'),csObs:v('cs-obs'),csDate:v('cs-date'),
+slSite:v('sl-site'),slObs:v('sl-obs'),slDate:v('sl-date'),slSetting:v('sl-setting'),
+slCulture:v('sl-culture'),slOutside:v('sl-outside')},ts:Date.now()
+}));}catch(e){}}
+
+function loadSaved(){try{
+const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;
+const d=JSON.parse(raw);if(Date.now()-d.ts>86400000){localStorage.removeItem(SAVE_KEY);return false;}
+numCR=d.numCR||1;
+for(const k in d.csD)csD[k]=d.csD[k];
+for(const k in d.slComments)slComments[k]=d.slComments[k];
+if(d.slExtra){slExtra.culture=d.slExtra.culture||'';slExtra.outside=d.slExtra.outside||'';}
+if(d.meta){setTimeout(()=>{
+if(d.meta.csSite)document.getElementById('cs-site').value=d.meta.csSite;
+if(d.meta.csObs)document.getElementById('cs-obs').value=d.meta.csObs;
+if(d.meta.csDate)document.getElementById('cs-date').value=d.meta.csDate;
+if(d.meta.slSite)document.getElementById('sl-site').value=d.meta.slSite;
+if(d.meta.slObs)document.getElementById('sl-obs').value=d.meta.slObs;
+if(d.meta.slDate)document.getElementById('sl-date').value=d.meta.slDate;
+if(d.meta.slSetting)document.getElementById('sl-setting').value=d.meta.slSetting;
+if(d.meta.slCulture)document.getElementById('sl-culture').value=d.meta.slCulture;
+if(d.meta.slOutside)document.getElementById('sl-outside').value=d.meta.slOutside;
+},0);}return true;}catch(e){return false;}}
+
+function rbH(pre,id){return`<div class="rbs">${[4,3,2,1].map(v=>{
+const l={4:'Embedded',3:'Developing',2:'Emerging',1:'Not Yet'};
+return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}</div>`;}
+
+function buildCRT(){const el=document.getElementById('crt');el.innerHTML='';
+for(let i=0;i<numCR;i++){initCR(i);const hd=Object.keys(csD[i].r).length>0;
+el.innerHTML+=`<button class="crb ${i===0?'act':''} ${hd?'hd':''}" onclick="swCR(${i},this)">Classroom ${i+1}<span class="dot"></span></button>`;}
+if(numCR<MAX_CR)el.innerHTML+=`<button class="btn-add" onclick="addCR()">+ Add Classroom</button>`;}
+
+function buildCRP(idx){initCR(idx);
+let h=`<div class="crp ${idx===0?'act':''}" id="crp-${idx}">
+<div class="card" style="padding:16px 24px"><div class="fg"><label>Classroom / Teacher</label>
+<input type="text" placeholder="e.g., Room 204 — Ms. Johnson" value="${csD[idx].teacher||''}" oninput="csD[${idx}].teacher=this.value;autoSave()"></div></div>`;
+P.forEach(p=>{h+=`<div class="pc open" id="cs${idx}-c${p.num}">
+<div class="ph" onclick="this.closest('.pc').classList.toggle('open')" style="border-left:4px solid ${p.color}">
+<div class="pn" style="background:${p.color}">${p.num}</div>
+<div class="ptx"><h3>${p.name}</h3><div class="ps">${p.tools}</div></div>
+<div class="pbdg" id="cs${idx}-b${p.num}" style="background:${p.light};color:${p.color}">—</div>
+<div class="pex">▼</div></div>
+<div class="pbd"><div class="pcx">
+<div class="anchor">${p.anchor}</div>
+<div class="lf" style="background:${p.light}"><div class="lf-ic" style="background:${p.color};color:#fff">👁</div>
+<div><span class="lf-lb" style="color:${p.color}">Look for:</span><span class="lf-tx">${p.lookfor}</span></div></div>
+<div class="rr"><span class="rl">Rating:</span>${rbH('cs'+idx,'P'+p.num)}</div>
+<textarea class="ni" placeholder="Evidence / Notes..." oninput="csD[${idx}].n['P${p.num}']=this.value;autoSave()">${csD[idx].n['P'+p.num]||''}</textarea>
+</div></div></div>`;});
+h+=`<div class="sc" id="cs${idx}-sc"><h2>Classroom ${idx+1} Score</h2>
+<div class="sg" id="cs${idx}-sg"></div>
+<div class="ob"><div class="obl">Classroom ${idx+1} Fidelity</div>
+<div class="obp" id="cs${idx}-pct">—</div><div class="obs" id="cs${idx}-sts">Rate all principles to see score</div>
+<div class="fb"><div class="ff" id="cs${idx}-ff" style="width:0%"></div></div></div></div>`;
+h+=`<div class="card" style="margin-top:12px"><h2>Classroom ${idx+1} Impression</h2>
+<div class="fg" style="margin-bottom:14px"><label>Strongest Principle Observed</label>
+<input type="text" id="cs${idx}-strong" value="${csD[idx].impr.strong||''}" oninput="csD[${idx}].impr.strong=this.value;autoSave()" placeholder="Which principle was most evident in this classroom?"></div>
+<div class="fg"><label>Area for Growth</label>
+<input type="text" id="cs${idx}-grow" value="${csD[idx].impr.grow||''}" oninput="csD[${idx}].impr.grow=this.value;autoSave()" placeholder="Which principle needs the most support in this classroom?"></div></div>`;
+h+=`</div>`;return h;}
+
+function buildAllCR(){const el=document.getElementById('crps');el.innerHTML='';
+for(let i=0;i<numCR;i++){el.innerHTML+=buildCRP(i);buildCRGrid(i);}
+buildCRT();restoreCS();}
+
+function buildCRGrid(idx){const g=document.getElementById(`cs${idx}-sg`);if(!g)return;
+P.forEach(p=>{g.innerHTML+=`<div class="st" style="background:${p.light};color:${p.color}"><div class="stl">P${p.num}</div><div class="stv" id="cs${idx}-t${p.num}">—</div></div>`;});}
+
+function restoreCS(){for(let i=0;i<numCR;i++){P.forEach(p=>{
+const val=csD[i].r['P'+p.num];if(val){const card=document.getElementById(`cs${i}-c${p.num}`);if(card){
+card.querySelectorAll('.rb').forEach(b=>{if(parseInt(b.dataset.v)===val)b.classList.add('s'+val);});
+const bg=document.getElementById(`cs${i}-b${p.num}`);if(bg)bg.textContent=val+'/4';
+const tl=document.getElementById(`cs${i}-t${p.num}`);if(tl)tl.textContent=val+'/4';}}});updateCRS(i);}}
+
+function addCR(){if(numCR>=MAX_CR)return;numCR++;buildAllCR();swCR(numCR-1,document.querySelectorAll('.crb')[numCR-1]);updateProgress();autoSave();}
+function swCR(i,btn){document.querySelectorAll('.crb').forEach(b=>b.classList.remove('act'));
+document.querySelectorAll('.crp').forEach(p=>p.classList.remove('act'));
+btn.classList.add('act');const p=document.getElementById('crp-'+i);if(p)p.classList.add('act');}
+
+function doRate(pre,id,val,btn){
+btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className='rb');btn.classList.add('s'+val);
+const idx=parseInt(pre.replace('cs',''));csD[idx].r[id]=val;
+const bg=document.getElementById(pre+'-b'+id.replace('P',''));if(bg)bg.textContent=val+'/4';
+const tl=document.getElementById(pre+'-t'+id.replace('P',''));if(tl)tl.textContent=val+'/4';
+const tab=document.querySelectorAll('.crb')[idx];
+if(tab&&Object.keys(csD[idx].r).length>0)tab.classList.add('hd');
+updateCRS(idx);updateProgress();autoSave();}
+
+function updateProgress(){
+let completed=0;let total=numCR;
+for(let i=0;i<numCR;i++){if(csD[i]&&Object.keys(csD[i].r).length>=8)completed++;}
+const txt=document.getElementById('progress-text');
+if(txt)txt.textContent=completed+' of '+total+' classroom'+(total!==1?'s':'')+' complete';
+const dots=document.getElementById('prog-dots');
+if(dots){let html='';for(let i=0;i<numCR;i++){
+const cls=csD[i]&&Object.keys(csD[i].r).length>=8?'done':Object.keys(csD[i]?.r||{}).length>0?'active':'';
+html+='<div class="prog-dot '+cls+'"></div>';}dots.innerHTML=html;}}
+
+function updateCRS(idx){let ts=0,tp=0;P.forEach(p=>{const val=csD[idx].r['P'+p.num];if(val){ts+=val;tp+=4;}});setOB(`cs${idx}`,ts,tp);}
+
+// ===== SITE-LEVEL =====
+function buildSLShell(){const grid=document.getElementById('sl-grid');
+P.forEach(p=>{grid.innerHTML+=`<div class="st" style="background:${p.light};color:${p.color}"><div class="stl">P${p.num}</div><div class="stv" id="sl-t${p.num}">—</div></div>`;});}
+
+function buildClassroomNotes(pNum){let parts=[];
+for(let i=0;i<numCR;i++){const note=csD[i]&&csD[i].n?csD[i].n['P'+pNum]:'';
+if(note&&note.trim()){const label=csD[i].teacher||`Classroom ${i+1}`;parts.push(`${label} — ${note.trim()}`);}}
+return parts.join('\n');}
+
+function buildImpressions(){
+const wrap=document.getElementById('sl-impr');
+const card=document.getElementById('sl-impr-card');
+let hasImpr=false;
+let html='';
+
+// Strengths
+let strengthRows='';
+for(let i=0;i<numCR;i++){
+if(!csD[i]||!csD[i].impr.strong)continue;
+hasImpr=true;
+const label=csD[i].teacher||`Classroom ${i+1}`;
+strengthRows+=`<div class="ci-row"><div class="ci-label">${label}</div><div class="ci-val">${csD[i].impr.strong}</div></div>`;
+}
+if(strengthRows){
+html+=`<div class="ci-group"><div class="ci-group-title">✦ Strongest Principle by Classroom</div>${strengthRows}</div>`;
+}
+
+// Growth areas
+let growthRows='';
+for(let i=0;i<numCR;i++){
+if(!csD[i]||!csD[i].impr.grow)continue;
+hasImpr=true;
+const label=csD[i].teacher||`Classroom ${i+1}`;
+growthRows+=`<div class="ci-row"><div class="ci-label">${label}</div><div class="ci-val">${csD[i].impr.grow}</div></div>`;
+}
+if(growthRows){
+html+=`<div class="ci-group"><div class="ci-group-title">⬆ Growth Area by Classroom</div>${growthRows}</div>`;
+}
+
+card.style.display=hasImpr?'block':'none';
+wrap.innerHTML=html;
+}
+
+function updateSL(){
+const wrap=document.getElementById('sl-rows');
+const scores=document.getElementById('sl-scores');
+const hasAny=Object.values(csD).some(d=>d&&Object.keys(d.r).length>0);
+
+if(!hasAny){
+wrap.innerHTML=`<div class="no-data"><div class="nd-i">📋</div>Complete your Classroom Snapshots first — your scores will appear here automatically.</div>`;
+scores.style.display='none';document.getElementById('sl-impr-card').style.display='none';return;}
+scores.style.display='block';
+
+buildImpressions();
+
+let html='',gt=0,gc=0;
+P.forEach(p=>{
+let s=0,c=0;
+for(let i=0;i<numCR;i++){const val=csD[i]?csD[i].r['P'+p.num]:null;if(val){s+=val;c++;gt+=val;gc++;}}
+const avg=c>0?(s/c).toFixed(1):'—';
+const tl=document.getElementById('sl-t'+p.num);if(tl)tl.textContent=c>0?avg+'/4':'—';
+
+const crNotes=buildClassroomNotes(p.num);
+const addlNotes=slComments['P'+p.num]||'';
+const displayNotes=addlNotes||crNotes;
+
+html+=`<div class="slr" style="border-left:4px solid ${p.color}">
+<div class="slr-left" style="background:${p.light}">
+<div class="pn pn-sm" style="background:${p.color};flex-shrink:0">${p.num}</div>
+<div class="slr-name">${p.name}</div>
+<div class="slr-score" style="background:rgba(255,255,255,.7);color:${p.color}">${avg}<span> / 4</span></div>
+</div>
+<div class="slr-right">
+<label>Comments &amp; Observations</label>
+<textarea id="sl-c${p.num}" placeholder="Additional observations for this principle..." oninput="slComments['P${p.num}']=this.value;autoSave()">${displayNotes}</textarea>
+</div></div>`;});
+wrap.innerHTML=html;
+setOB('sl',gt,gc*4);}
+
+function setOB(pre,s,p){const pE=document.getElementById(pre+'-pct');const sE=document.getElementById(pre+'-sts');const fE=document.getElementById(pre+'-ff');
+if(!pE)return;if(p>0){const pct=Math.round(s/p*100);pE.textContent=pct+'%';fE.style.width=pct+'%';
+if(pct>=85){sE.textContent='✦ Exemplary — Embedded Implementation';fE.style.background='#2CB34A';}
+else if(pct>=70){sE.textContent='✓ Meeting Fidelity Benchmark (70%)';fE.style.background='var(--tcg-orange)';}
+else if(pct>=50){sE.textContent='⚠ Developing — Below Benchmark';fE.style.background='#FFDD4F';}
+else{sE.textContent='⬇ Needs Significant Support';fE.style.background='#DC3545';}
+}else{pE.textContent='—';sE.textContent='Complete classroom snapshots to see score';fE.style.width='0%';}}
+
+function mainTab(t,btn){
+document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('act'));
+document.querySelectorAll('.mt').forEach(b=>b.classList.remove('act'));
+document.getElementById('pnl-'+t).classList.add('act');btn.classList.add('act');
+if(t==='sl'){
+const site=v('cs-site');if(site&&!v('sl-site'))document.getElementById('sl-site').value=site;
+const obs=v('cs-obs');if(obs&&!v('sl-obs'))document.getElementById('sl-obs').value=obs;
+const date=v('cs-date');if(date&&!v('sl-date'))document.getElementById('sl-date').value=date;
+if(slExtra.culture)document.getElementById('sl-culture').value=slExtra.culture;
+if(slExtra.outside)document.getElementById('sl-outside').value=slExtra.outside;
+updateSL();}
+window.scrollTo(0,0);}
+
+function exportCSV(){
+const now=new Date().toISOString().slice(0,19).replace('T',' ');
+const site=v('cs-site')||'Assessment';
+const obs=v('cs-obs')||'';
+const date=v('cs-date')||new Date().toISOString().slice(0,10);
+const setting=v('sl-setting')||'';
+
+let csv='FormType,ExportDate,Site,Observer,Date,ClassroomNum,Teacher,';
+csv+=P.map(p=>'P'+p.num+'_'+p.name.replace(/[\s\/]/g,'_')).join(',');
+csv+=',OverallPct,StrongestPrinciple,GrowthArea,Setting,CultureImpression,OutsideClassrooms\n';
+
+// Classroom rows
+for(let i=0;i<numCR;i++){if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
+csv+=`Classroom,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",${i+1},"${esc(csD[i].teacher)}",`;
+csv+=P.map(p=>csD[i].r['P'+p.num]||'').join(',');
+let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r){ts+=r;tp+=4;}});
+csv+=','+(tp>0?Math.round(ts/tp*100):'');
+csv+=`,"${esc(csD[i].impr.strong)}","${esc(csD[i].impr.grow)}","","",""`;
+csv+='\n';}
+
+// Site-Level summary row
+let gt=0,gc=0;
+csv+=`SiteLevel,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",,"",`;
+P.forEach((p,idx)=>{let s=0,c=0;
+for(let i=0;i<numCR;i++){const vl=csD[i]?csD[i].r['P'+p.num]:null;if(vl){s+=vl;c++;gt+=vl;gc++;}}
+csv+=(c>0?(s/c).toFixed(1):'');
+if(idx<P.length-1)csv+=',';});
+csv+=','+(gc>0?Math.round(gt/(gc*4)*100):'');
+csv+=`,"","","${esc(v('sl-setting'))}","${esc(v('sl-culture'))}","${esc(v('sl-outside'))}"`;
+csv+='\n';
+
+const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;a.download=`TranZed8_${site.replace(/\s/g,'')}_${date}.csv`;a.click();
+URL.revokeObjectURL(url);document.getElementById('email-modal').classList.add('show');}
+
+function v(id){const e=document.getElementById(id);return e?e.value:'';}
+function esc(s){return(s||'').replace(/"/g,'""');}
+
+function clearAll(){if(!confirm('Clear all data and start a new assessment? This cannot be undone.'))return;
+for(let i=0;i<MAX_CR;i++)csD[i]={r:{},n:{},teacher:'',impr:{strong:'',grow:''}};
+numCR=1;buildAllCR();
+document.querySelectorAll('#pnl-cs > .card input,#pnl-cs > .card select').forEach(e=>{
+if(e.type==='date')e.value='';else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value='';});
+for(const k in slComments)delete slComments[k];slExtra.culture='';slExtra.outside='';
+document.querySelectorAll('#pnl-sl .fg input,#pnl-sl .fg select,#pnl-sl .fg textarea').forEach(e=>{
+if(e.type==='date')e.value='';else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value='';});
+const today=new Date().toISOString().slice(0,10);
+document.getElementById('cs-date').value=today;document.getElementById('sl-date').value=today;
+updateSL();localStorage.removeItem(SAVE_KEY);updateProgress();showToast('Form cleared — ready for new assessment');}
+
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+document.addEventListener('DOMContentLoaded',()=>{const restored=loadSaved();buildAllCR();buildSLShell();updateProgress();
+if(!restored){const today=new Date().toISOString().slice(0,10);document.getElementById('cs-date').value=today;document.getElementById('sl-date').value=today;}
+else{document.getElementById('restored-banner').style.display='block';}});
+</script>
+</body>
+</html>
