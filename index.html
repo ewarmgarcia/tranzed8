@@ -360,7 +360,8 @@ if(d.meta.slOutside)document.getElementById('sl-outside').value=d.meta.slOutside
 
 function rbH(pre,id){return`<div class="rbs">${[4,3,2,1].map(v=>{
 const l={4:'Distinguished',3:'Proficient',2:'Satisfactory',1:'Needs Improvement'};
-return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}</div>`;}
+const tt={4:'Fully embedded in daily practice across all settings. Staff consistently demonstrate without prompting.',3:'Consistently implemented with clear, observable evidence. Staff intentionally and regularly apply this principle.',2:'Some evidence observed but inconsistent across settings or staff. Present but not yet routine.',1:'Little or no evidence observed. Not yet part of daily practice; requires significant support.'};
+return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)" title="${v} — ${l[v]}: ${tt[v]}"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}</div>`;}
 
 function buildCRT(){const el=document.getElementById('crt');el.innerHTML='';
 for(let i=0;i<numCR;i++){initCR(i);const hd=Object.keys(csD[i].r).length>0;
