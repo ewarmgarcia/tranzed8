@@ -85,15 +85,15 @@ body{font-family:'Mulish',sans-serif;background:var(--lg);color:var(--dg);line-h
 .rr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;}
 .rl{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tcg-blue);min-width:50px;}
 .rbs{display:flex;gap:6px;}
-.rb{display:flex;flex-direction:column;align-items:center;justify-content:center;width:80px;height:48px;border-radius:10px;border:2px solid var(--mg);background:#fff;font-family:'Mulish',sans-serif;cursor:pointer;transition:all .15s;padding:4px 2px;}
+.rb{display:flex;flex-direction:column;align-items:center;justify-content:center;width:96px;height:48px;border-radius:10px;border:2px solid var(--mg);background:#fff;font-family:'Mulish',sans-serif;cursor:pointer;transition:all .15s;padding:4px 2px;}
 .rb .rbn{font-weight:800;font-size:16px;color:#888;line-height:1;}
-.rb .rbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:#aaa;line-height:1;margin-top:2px;}
+.rb .rbl{font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:#aaa;line-height:1;margin-top:2px;}
 .rb:hover{border-color:var(--tcg-blue);transform:translateY(-1px);}
 .rb.s4{background:#2CB34A;border-color:#2CB34A;}.rb.s4 .rbn,.rb.s4 .rbl{color:#fff;}
 .rb.s3{background:#00ACCD;border-color:#00ACCD;}.rb.s3 .rbn,.rb.s3 .rbl{color:#fff;}
 .rb.s2{background:#F47721;border-color:#F47721;}.rb.s2 .rbn,.rb.s2 .rbl{color:#fff;}
 .rb.s1{background:#DC3545;border-color:#DC3545;}.rb.s1 .rbn,.rb.s1 .rbl{color:#fff;}
-@media(max-width:500px){.rb{width:64px;height:44px;}.rb .rbn{font-size:14px;}}
+@media(max-width:500px){.rb{width:76px;height:44px;}.rb .rbn{font-size:14px;}.rb .rbl{font-size:6px;}}
 
 .ni{width:100%;margin-top:12px;padding:10px 12px;border:2px solid var(--mg);border-radius:9px;font-family:'Mulish',sans-serif;font-size:13px;color:var(--dg);background:var(--lg);resize:vertical;min-height:50px;transition:border-color .2s;}
 .ni:focus{outline:none;border-color:var(--tcg-blue);background:#fff;}
@@ -213,11 +213,16 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div class="fg"><label>Date</label><input type="date" id="cs-date" onchange="autoSave()"></div>
 </div></div>
 
-<div class="rk"><span class="rk-l">Rating Scale:</span>
-<div class="rk-i"><span class="kn k4">4</span> Embedded</div><div class="kd"></div>
-<div class="rk-i"><span class="kn k3">3</span> Developing</div><div class="kd"></div>
-<div class="rk-i"><span class="kn k2">2</span> Emerging</div><div class="kd"></div>
-<div class="rk-i"><span class="kn k1">1</span> Not Yet</div></div>
+<div class="rk" style="flex-direction:column;align-items:stretch;padding:16px 20px;">
+<span class="rk-l" style="margin-bottom:8px;">Danielson Rating Scale</span>
+<table style="width:100%;border-collapse:collapse;font-size:12px;">
+<tr style="background:var(--tcg-blue);color:#fff;"><td style="padding:6px 10px;font-weight:700;width:60px;text-align:center;">Rating</td><td style="padding:6px 10px;font-weight:700;width:130px;">Level</td><td style="padding:6px 10px;font-weight:700;">Description</td></tr>
+<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">4</td><td style="padding:6px 10px;font-weight:700;">Distinguished</td><td style="padding:6px 10px;">Fully embedded in daily practice across all settings. Staff consistently demonstrate without prompting.</td></tr>
+<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">3</td><td style="padding:6px 10px;font-weight:700;">Proficient</td><td style="padding:6px 10px;">Consistently implemented with clear, observable evidence. Staff intentionally and regularly apply this principle.</td></tr>
+<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">2</td><td style="padding:6px 10px;font-weight:700;">Satisfactory</td><td style="padding:6px 10px;">Some evidence observed but inconsistent across settings or staff. Present but not yet routine.</td></tr>
+<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">1</td><td style="padding:6px 10px;font-weight:700;">Needs Improvement</td><td style="padding:6px 10px;">Little or no evidence observed. Not yet part of daily practice; requires significant support.</td></tr>
+</table>
+</div>
 
 <div class="crt" id="crt"></div>
 <div id="crps"></div>
@@ -296,30 +301,30 @@ Email results to: <a href="mailto:garciae@childrensguild.org?cc=bdaniels@childre
 
 <script>
 const P=[
-{num:1,name:"Values-Infused Culture",color:"var(--p1)",light:"var(--p1l)",tools:"Culture Card, Wisdom Principles, Character Education",
-anchor:"Adults explicitly reference and model TCG values in interactions with students",
-lookfor:"Values language used in adult-student interactions, character strengths acknowledged, quality work recognized and celebrated, culture aligned with mission and vision"},
+{num:1,name:"Values-Infused Culture",color:"var(--p1)",light:"var(--p1l)",tools:"Culture Card, Daily Meetings, Character Education",
+anchor:"TCG values are infused throughout the program's people, systems, environment, and curriculum",
+lookfor:"Daily culture card meetings held and attended by all staff; adults model and reference values in interactions; character education is deliberately taught; staff and students recognize quality work, courage, and vision"},
 {num:2,name:"Focus on Well-Being",color:"var(--p2)",light:"var(--p2l)",tools:"Holistic Report Card, Student-Led Conferences, Community Meetings",
-anchor:"Adults use mindfulness or stress-reduction strategies and build positive relationships that address the whole child",
-lookfor:"Mindfulness or calming activities, positive adult-student interactions, attention to emotional and social needs, strategies that help children regulate emotions and build resilience"},
+anchor:"The whole child is served through attention to academic, social, emotional, and behavioral needs",
+lookfor:"Mindfulness or SEL strategies implemented; positive adult-student relationships evident; differentiated instruction for diverse learners; culturally responsive pedagogy practiced; checks for understanding aligned to content"},
 {num:3,name:"Enriched Environments",color:"var(--p3)",light:"var(--p3l)",tools:"Document Panels, Kiosks, Murals, PBL, Experiential Learning",
-anchor:"The environment is intentionally designed to communicate values and display current student learning",
-lookfor:"Student work displayed, values-aligned visuals, evidence of project-based or experiential learning, environment stimulates intellect and radiates organizational messages"},
+anchor:"Physical environments are intentionally designed to stimulate learning, communicate values, and display student work",
+lookfor:"Environment is appealing and inviting; current student work displayed; values-aligned visuals present; anchor charts and learning strategies visible; environment serves as a learning tool"},
 {num:4,name:"Brain Literacy",color:"var(--p4)",light:"var(--p4l)",tools:"Brain Paths, Play Intensity, Enhanced Nutrition, ACEs",
-anchor:"Brain-compatible practices are used (movement, novelty, breaks) and adults apply trauma/ACEs knowledge in their responses",
-lookfor:"Movement breaks, varied instructional strategies, brain science language, trauma-informed adult responses, children and staff understand how the brain learns"},
-{num:5,name:"Behavior Motivation",color:"var(--p5)",light:"var(--p5l)",tools:"MSDR, Student Support Center, PBIS, No-Suspension Supports",
-anchor:"Positive behavior supports are actively implemented and adults use restorative or trauma-informed responses instead of punitive ones",
-lookfor:"PBIS signage and systems active, positive reinforcement observed, restorative language, de-escalation strategies, environments support self-regulation and sensory integration"},
+anchor:"Brain-compatible practices are used and staff apply knowledge of how the brain learns, including trauma/ACEs awareness",
+lookfor:"Movement breaks and varied instructional strategies used; higher-order questioning observed; students explain their thinking; trauma-informed adult responses; staff and students understand how the brain learns"},
+{num:5,name:"Behavior Motivation",color:"var(--p5)",light:"var(--p5l)",tools:"MSDR, Student Support Center, PBIS, Restorative Practices",
+anchor:"A comprehensive continuum of positive behavioral supports replaces punitive approaches",
+lookfor:"PBIS systems active with visible expectations; positive reinforcement observed; restorative practices evidenced; de-escalation strategies used; classroom routines support self-regulation"},
 {num:6,name:"Community Influence",color:"var(--p6)",light:"var(--p6l)",tools:"Community Engagement, Classroom Communities, Restorative Practices",
-anchor:"Community-building practices are implemented and students contribute to the community",
-lookfor:"Evidence of class meetings or circles, collaborative structures, student roles or contributions visible, family engagement in academic and social-emotional learning"},
+anchor:"Students and staff discover how to positively influence their community through service and engagement",
+lookfor:"Community-building practices in place; service learning or community contribution evident; family engagement in academic and SEL experiences; collaborative structures observed"},
 {num:7,name:"Arts Enhancement",color:"var(--p7)",light:"var(--p7l)",tools:"Arts Integration, Performance, Art Therapy",
-anchor:"Arts are integrated across content areas and students have opportunities to create and express through art",
-lookfor:"Art displayed or in progress, arts integrated into lessons, creative expression supported, art used for communication, self-expression, and healing"},
+anchor:"Arts are infused across content areas and used for expression, communication, and healing",
+lookfor:"Arts integration deliberately taught and practiced; creative expression supported; art displayed or in progress; arts incorporated into PBL or content areas"},
 {num:8,name:"Ownership Mindset",color:"var(--p8)",light:"var(--p8l)",tools:"Collaborative Problem-Solving, Restorative Conferences",
-anchor:"Adults model ownership and students take ownership of their learning through voice, choice, and collaborative problem-solving",
-lookfor:"Student choice evident, students sharing or presenting, collaborative problem-solving, adults model accountability by examining their own contributions first"}
+anchor:"Children and staff take ownership by examining their own contributions first and using collaborative problem-solving",
+lookfor:"Students take ownership and are active participants; collaborative problem-solving used; students receive problem-solving support; presentation of learning practices implemented; adults model accountability"}
 ];
 
 const MAX_CR=4;let numCR=1;const csD={};const slComments={};const slExtra={culture:'',outside:''};
@@ -354,7 +359,7 @@ if(d.meta.slOutside)document.getElementById('sl-outside').value=d.meta.slOutside
 },0);}return true;}catch(e){return false;}}
 
 function rbH(pre,id){return`<div class="rbs">${[4,3,2,1].map(v=>{
-const l={4:'Embedded',3:'Developing',2:'Emerging',1:'Not Yet'};
+const l={4:'Distinguished',3:'Proficient',2:'Satisfactory',1:'Needs Improvement'};
 return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}</div>`;}
 
 function buildCRT(){const el=document.getElementById('crt');el.innerHTML='';
@@ -511,10 +516,10 @@ setOB('sl',gt,gc*4);}
 
 function setOB(pre,s,p){const pE=document.getElementById(pre+'-pct');const sE=document.getElementById(pre+'-sts');const fE=document.getElementById(pre+'-ff');
 if(!pE)return;if(p>0){const pct=Math.round(s/p*100);pE.textContent=pct+'%';fE.style.width=pct+'%';
-if(pct>=85){sE.textContent='✦ Exemplary — Embedded Implementation';fE.style.background='#2CB34A';}
-else if(pct>=70){sE.textContent='✓ Meeting Fidelity Benchmark (70%)';fE.style.background='var(--tcg-orange)';}
-else if(pct>=50){sE.textContent='⚠ Developing — Below Benchmark';fE.style.background='#FFDD4F';}
-else{sE.textContent='⬇ Needs Significant Support';fE.style.background='#DC3545';}
+if(pct>=85){sE.textContent='✦ Distinguished — Exemplary Implementation';fE.style.background='#2CB34A';}
+else if(pct>=70){sE.textContent='✓ Proficient — Consistent Implementation';fE.style.background='var(--tcg-orange)';}
+else if(pct>=50){sE.textContent='⚠ Satisfactory — Partial Implementation';fE.style.background='#FFDD4F';}
+else{sE.textContent='⬇ Needs Improvement — Significant Support Required';fE.style.background='#DC3545';}
 }else{pE.textContent='—';sE.textContent='Complete classroom snapshots to see score';fE.style.width='0%';}}
 
 function mainTab(t,btn){
