@@ -93,6 +93,8 @@ body{font-family:'Mulish',sans-serif;background:var(--lg);color:var(--dg);line-h
 .rb.s3{background:#00ACCD;border-color:#00ACCD;}.rb.s3 .rbn,.rb.s3 .rbl{color:#fff;}
 .rb.s2{background:#F47721;border-color:#F47721;}.rb.s2 .rbn,.rb.s2 .rbl{color:#fff;}
 .rb.s1{background:#DC3545;border-color:#DC3545;}.rb.s1 .rbn,.rb.s1 .rbl{color:#fff;}
+.rb-no{border-style:dashed;border-color:#999;}.rb-no .rbn{color:#999;}.rb-no .rbl{color:#aaa;}
+.rb-no:hover{border-color:#666;}.rb.s-no{background:#999;border-color:#999;border-style:solid;}.rb.s-no .rbn,.rb.s-no .rbl{color:#fff;}
 @media(max-width:500px){.rb{width:76px;height:44px;}.rb .rbn{font-size:14px;}.rb .rbl{font-size:6px;}}
 
 .ni{width:100%;margin-top:12px;padding:10px 12px;border:2px solid var(--mg);border-radius:9px;font-family:'Mulish',sans-serif;font-size:13px;color:var(--dg);background:var(--lg);resize:vertical;min-height:50px;transition:border-color .2s;}
@@ -187,7 +189,8 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div><h1>TranZed 8 Fidelity Assessment</h1><div class="sub">The Children's Guild &bull; Transformation Education</div></div></div>
 <div class="hdr-acts">
 <span class="save-status"><span class="save-dot"></span>Auto-saving</span>
-<button class="bh bh-o" onclick="exportCSV()">⬇ Export All Data</button>
+<button class="bh bh-o" onclick="submitToSharePoint()" style="background:#2CB34A;box-shadow:0 2px 8px rgba(44,179,74,.4);">✓ Submit to SharePoint</button>
+<button class="bh bh-g" onclick="exportCSV()">⬇ CSV Backup</button>
 <button class="bh bh-g" onclick="window.print()">🖨 Print</button>
 <button class="bh bh-g" onclick="clearAll()">✕ Clear</button>
 </div></div>
@@ -270,6 +273,12 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div class="fg"><label>Observations Outside Classrooms (hallways, common areas, staff interactions)</label>
 <textarea id="sl-outside" placeholder="What did you observe outside of classrooms? Hallways, front office, cafeteria, staff-to-staff interactions, Culture Card happening, values visible in common spaces?" oninput="slExtra.outside=this.value;autoSave()"></textarea></div>
 </div>
+
+<div class="card" style="margin-top:16px">
+<h2>Site-Level Indicators</h2>
+<p style="font-size:13px;color:#666;margin-bottom:16px;">Rate these school-wide indicators using the same Danielson scale (1–4) or N/O if not observed.</p>
+<div id="sl-indicators"></div>
+</div>
 </div>
 
 </main>
@@ -281,11 +290,25 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <h3>Data Exported!</h3>
 <p class="modal-msg">Your file has been downloaded. Now email it:</p>
 <div class="modal-email">
-<b>To:</b> <a href="mailto:garciae@childrensguild.org">garciae@childrensguild.org</a><br>
-<b>CC:</b> <a href="mailto:bdaniels@childrensguild.org">bdaniels@childrensguild.org</a><br>
+<b>To:</b> <a href="/cdn-cgi/l/email-protection#35525447565c545075565d5c595147505b4652405c59511b5a4752"><span class="__cf_email__" data-cfemail="c2a5a3b0a1aba3a782a1aaabaea6b0a7acb1a5b7abaea6ecadb0a5">[email&#160;protected]</span></a><br>
+<b>CC:</b> <a href="/cdn-cgi/l/email-protection#8fedebeee1e6eae3fccfece7e6e3ebfdeae1fce8fae6e3eba1e0fde8"><span class="__cf_email__" data-cfemail="650701040b0c00091625060d0c090117000b1602100c09014b0a1702">[email&#160;protected]</span></a><br>
 <b>Subject:</b> TranZed [School Name] [Date]
 </div>
 <button class="modal-btn" onclick="document.getElementById('email-modal').classList.remove('show')">Got It</button>
+</div>
+</div>
+
+<div class="modal-overlay" id="submit-modal" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="modal-box">
+<div class="modal-icon">✅</div>
+<h3>Submitted to SharePoint!</h3>
+<p class="modal-msg">Your classroom and site-level data has been saved directly to the TranZed 8 database. No email needed.</p>
+<div class="modal-email" style="background:#E5F7EA;">
+<b style="color:#2CB34A;">What happens next:</b><br>
+Data appears in the SharePoint list within seconds.<br>
+Elizabeth will review and follow up.
+</div>
+<button class="modal-btn" style="background:#2CB34A;" onclick="document.getElementById('submit-modal').classList.remove('show')">Done</button>
 </div>
 </div>
 
@@ -295,11 +318,11 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div class="prog-dots" id="prog-dots"></div>
 </div>
 <div class="fb-email">
-Email results to: <a href="mailto:garciae@childrensguild.org?cc=bdaniels@childrensguild.org&subject=TranZed">garciae@childrensguild.org</a>
+Submit sends data directly to SharePoint
 </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const P=[
 {num:1,name:"Values-Infused Culture",color:"var(--p1)",light:"var(--p1l)",tools:"Culture Card, Daily Meetings, Character Education",
 anchor:"TCG values are infused throughout the program's people, systems, environment, and curriculum",
@@ -328,12 +351,13 @@ lookfor:"Students take ownership and are active participants; collaborative prob
 ];
 
 const MAX_CR=4;let numCR=1;const csD={};const slComments={};const slExtra={culture:'',outside:''};
-function initCR(i){if(!csD[i])csD[i]={r:{},n:{},teacher:'',impr:{strong:'',grow:''}};}
+function initCR(i){if(!csD[i])csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',impr:{strong:'',grow:''}};
+if(!csD[i].subject)csD[i].subject='';if(!csD[i].activity)csD[i].activity='';}
 
 const SAVE_KEY='tranzed8_session';let saveTimer=null;
 function autoSave(){if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(doSave,800);}
 function doSave(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({
-numCR,csD,slComments,slExtra,
+numCR,csD,slComments,slExtra,slIndData,
 meta:{csSite:v('cs-site'),csObs:v('cs-obs'),csDate:v('cs-date'),
 slSite:v('sl-site'),slObs:v('sl-obs'),slDate:v('sl-date'),slSetting:v('sl-setting'),
 slCulture:v('sl-culture'),slOutside:v('sl-outside')},ts:Date.now()
@@ -346,6 +370,7 @@ numCR=d.numCR||1;
 for(const k in d.csD)csD[k]=d.csD[k];
 for(const k in d.slComments)slComments[k]=d.slComments[k];
 if(d.slExtra){slExtra.culture=d.slExtra.culture||'';slExtra.outside=d.slExtra.outside||'';}
+if(d.slIndData){for(const k in d.slIndData)slIndData[k]=d.slIndData[k];}
 if(d.meta){setTimeout(()=>{
 if(d.meta.csSite)document.getElementById('cs-site').value=d.meta.csSite;
 if(d.meta.csObs)document.getElementById('cs-obs').value=d.meta.csObs;
@@ -361,7 +386,20 @@ if(d.meta.slOutside)document.getElementById('sl-outside').value=d.meta.slOutside
 function rbH(pre,id){return`<div class="rbs">${[4,3,2,1].map(v=>{
 const l={4:'Distinguished',3:'Proficient',2:'Satisfactory',1:'Needs Improvement'};
 const tt={4:'Fully embedded in daily practice across all settings. Staff consistently demonstrate without prompting.',3:'Consistently implemented with clear, observable evidence. Staff intentionally and regularly apply this principle.',2:'Some evidence observed but inconsistent across settings or staff. Present but not yet routine.',1:'Little or no evidence observed. Not yet part of daily practice; requires significant support.'};
-return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)" title="${v} — ${l[v]}: ${tt[v]}"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}</div>`;}
+return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)" title="${v} — ${l[v]}: ${tt[v]}"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}<button class="rb rb-no" data-v="0" onclick="doRateNO('${pre}','${id}',this)" title="Not Observed — excluded from scoring"><span class="rbn" style="font-size:11px">N/O</span><span class="rbl">Not Observed</span></button></div>`;}
+
+function doRateNO(pre,id,btn){
+const idx=parseInt(pre.replace('cs',''));
+const reason=prompt('Why was this principle not observed?\n\nExamples:\n• Class was testing\n• Only in room briefly\n• Activity did not allow observation');
+if(!reason||!reason.trim()){return;}
+btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');
+btn.classList.add('s-no');
+csD[idx].r[id]='NO';csD[idx].n[id]=`[N/O] ${reason.trim()}`;
+const bg=document.getElementById(pre+'-b'+id.replace('P',''));if(bg){bg.textContent='N/O';bg.style.background='#999';bg.style.color='#fff';}
+const tl=document.getElementById(pre+'-t'+id.replace('P',''));if(tl)tl.textContent='N/O';
+const tab=document.querySelectorAll('.crb')[idx];
+if(tab&&Object.keys(csD[idx].r).length>0)tab.classList.add('hd');
+updateCRS(idx);updateProgress();autoSave();}
 
 function buildCRT(){const el=document.getElementById('crt');el.innerHTML='';
 for(let i=0;i<numCR;i++){initCR(i);const hd=Object.keys(csD[i].r).length>0;
@@ -370,8 +408,29 @@ if(numCR<MAX_CR)el.innerHTML+=`<button class="btn-add" onclick="addCR()">+ Add C
 
 function buildCRP(idx){initCR(idx);
 let h=`<div class="crp ${idx===0?'act':''}" id="crp-${idx}">
-<div class="card" style="padding:16px 24px"><div class="fg"><label>Classroom / Teacher</label>
-<input type="text" placeholder="e.g., Room 204 — Ms. Johnson" value="${csD[idx].teacher||''}" oninput="csD[${idx}].teacher=this.value;autoSave()"></div></div>`;
+<div class="card" style="padding:16px 24px"><div class="igrid">
+<div class="fg"><label>Classroom / Teacher</label>
+<input type="text" placeholder="e.g., Room 204 — Ms. Johnson" value="${csD[idx].teacher||''}" oninput="csD[${idx}].teacher=this.value;autoSave()"></div>
+<div class="fg"><label>Subject</label>
+<select onchange="csD[${idx}].subject=this.value;autoSave()">
+<option value="">Select subject...</option><option ${csD[idx].subject==='Reading'?'selected':''}>Reading</option>
+<option ${csD[idx].subject==='Math'?'selected':''}>Math</option><option ${csD[idx].subject==='Science'?'selected':''}>Science</option>
+<option ${csD[idx].subject==='Social Studies'?'selected':''}>Social Studies</option><option ${csD[idx].subject==='ELA/Writing'?'selected':''}>ELA/Writing</option>
+<option ${csD[idx].subject==='Art'?'selected':''}>Art</option><option ${csD[idx].subject==='Music'?'selected':''}>Music</option>
+<option ${csD[idx].subject==='PE'?'selected':''}>PE</option><option ${csD[idx].subject==='SEL'?'selected':''}>SEL</option>
+<option ${csD[idx].subject==='Other'?'selected':''}>Other</option></select></div>
+<div class="fg"><label>Activity</label>
+<select onchange="csD[${idx}].activity=this.value;autoSave()">
+<option value="">Select activity...</option><option ${csD[idx].activity==='Whole group instruction'?'selected':''}>Whole group instruction</option>
+<option ${csD[idx].activity==='Small group / centers'?'selected':''}>Small group / centers</option>
+<option ${csD[idx].activity==='Partner work'?'selected':''}>Partner work</option>
+<option ${csD[idx].activity==='Independent work'?'selected':''}>Independent work</option>
+<option ${csD[idx].activity==='Student presentations'?'selected':''}>Student presentations</option>
+<option ${csD[idx].activity==='Hands-on / project'?'selected':''}>Hands-on / project</option>
+<option ${csD[idx].activity==='Free play'?'selected':''}>Free play</option>
+<option ${csD[idx].activity==='Testing'?'selected':''}>Testing</option>
+<option ${csD[idx].activity==='Other'?'selected':''}>Other</option></select></div>
+</div></div>`;
 P.forEach(p=>{h+=`<div class="pc open" id="cs${idx}-c${p.num}">
 <div class="ph" onclick="this.closest('.pc').classList.toggle('open')" style="border-left:4px solid ${p.color}">
 <div class="pn" style="background:${p.color}">${p.num}</div>
@@ -434,7 +493,7 @@ if(dots){let html='';for(let i=0;i<numCR;i++){
 const cls=csD[i]&&Object.keys(csD[i].r).length>=8?'done':Object.keys(csD[i]?.r||{}).length>0?'active':'';
 html+='<div class="prog-dot '+cls+'"></div>';}dots.innerHTML=html;}}
 
-function updateCRS(idx){let ts=0,tp=0;P.forEach(p=>{const val=csD[idx].r['P'+p.num];if(val){ts+=val;tp+=4;}});setOB(`cs${idx}`,ts,tp);}
+function updateCRS(idx){let ts=0,tp=0;P.forEach(p=>{const val=csD[idx].r['P'+p.num];if(val&&val!=='NO'){ts+=val;tp+=4;}});setOB(`cs${idx}`,ts,tp);}
 
 // ===== SITE-LEVEL =====
 function buildSLShell(){const grid=document.getElementById('sl-grid');
@@ -494,7 +553,7 @@ buildImpressions();
 let html='',gt=0,gc=0;
 P.forEach(p=>{
 let s=0,c=0;
-for(let i=0;i<numCR;i++){const val=csD[i]?csD[i].r['P'+p.num]:null;if(val){s+=val;c++;gt+=val;gc++;}}
+for(let i=0;i<numCR;i++){const val=csD[i]?csD[i].r['P'+p.num]:null;if(val&&val!=='NO'){s+=val;c++;gt+=val;gc++;}}
 const avg=c>0?(s/c).toFixed(1):'—';
 const tl=document.getElementById('sl-t'+p.num);if(tl)tl.textContent=c>0?avg+'/4':'—';
 
@@ -533,8 +592,93 @@ const obs=v('cs-obs');if(obs&&!v('sl-obs'))document.getElementById('sl-obs').val
 const date=v('cs-date');if(date&&!v('sl-date'))document.getElementById('sl-date').value=date;
 if(slExtra.culture)document.getElementById('sl-culture').value=slExtra.culture;
 if(slExtra.outside)document.getElementById('sl-outside').value=slExtra.outside;
-updateSL();}
+buildSLIndicators();updateSL();}
 window.scrollTo(0,0);}
+
+const FLOW_URL='https://defaulta074af5d321f4e67a992697496183a.46.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/5bebde7d59654de5b8289fd030495ff9/triggers/When_form_submitted/paths/invoke?api-version=1&sp=%2Ftriggers%2FWhen_form_submitted%2Frun&sv=1.0&sig=bfvbHZEOPcsq3oKyO2ctZTlUpwSxaR95FV6KqBig3XQ';
+
+async function submitToSharePoint(){
+const site=v('cs-site');const obs=v('cs-obs');const date=v('cs-date');
+if(!site||!obs||!date){alert('Please fill in Site, Observer, and Date before submitting.');return;}
+
+const hasData=Object.values(csD).some(d=>d&&Object.keys(d.r).length>0);
+if(!hasData){alert('No classroom data to submit. Rate at least one principle first.');return;}
+
+if(!confirm('Submit all data to SharePoint?\n\nThis will send classroom and site-level data.\nYou can also download a CSV backup afterward.')){return;}
+
+const submitBtn=document.querySelector('.bh-o[onclick*="submitToSharePoint"]');
+const origText=submitBtn.innerHTML;
+submitBtn.innerHTML='⏳ Submitting...';submitBtn.disabled=true;
+
+let successCount=0;let errorCount=0;
+
+try{
+// Submit classroom rows
+for(let i=0;i<numCR;i++){
+if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
+let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r&&r!=='NO'){ts+=r;tp+=4;}});
+const payload={
+FormType:'Classroom',Site:site,Observer:obs,ObservationDate:date,
+ClassroomNum:i+1,Teacher:csD[i].teacher||'',
+Subject:csD[i].subject||'Other',Activity:csD[i].activity||'Other',
+P1_Score:csD[i].r['P1']===undefined?'':csD[i].r['P1']==='NO'?'NO':csD[i].r['P1'],
+P2_Score:csD[i].r['P2']===undefined?'':csD[i].r['P2']==='NO'?'NO':csD[i].r['P2'],
+P3_Score:csD[i].r['P3']===undefined?'':csD[i].r['P3']==='NO'?'NO':csD[i].r['P3'],
+P4_Score:csD[i].r['P4']===undefined?'':csD[i].r['P4']==='NO'?'NO':csD[i].r['P4'],
+P5_Score:csD[i].r['P5']===undefined?'':csD[i].r['P5']==='NO'?'NO':csD[i].r['P5'],
+P6_Score:csD[i].r['P6']===undefined?'':csD[i].r['P6']==='NO'?'NO':csD[i].r['P6'],
+P7_Score:csD[i].r['P7']===undefined?'':csD[i].r['P7']==='NO'?'NO':csD[i].r['P7'],
+P8_Score:csD[i].r['P8']===undefined?'':csD[i].r['P8']==='NO'?'NO':csD[i].r['P8'],
+P1_Notes:csD[i].n['P1']||'',P2_Notes:csD[i].n['P2']||'',P3_Notes:csD[i].n['P3']||'',P4_Notes:csD[i].n['P4']||'',
+P5_Notes:csD[i].n['P5']||'',P6_Notes:csD[i].n['P6']||'',P7_Notes:csD[i].n['P7']||'',P8_Notes:csD[i].n['P8']||'',
+OverallPct:tp>0?Math.round(ts/tp*100):'',
+StrongestPrinciple:csD[i].impr.strong||'',GrowthArea:csD[i].impr.grow||'',
+SL1_Score:'',SL2_Score:'',SL3_Score:'',SL4_Score:'',SL5_Score:'',
+SL1_Notes:'',SL2_Notes:'',SL3_Notes:'',SL4_Notes:'',SL5_Notes:'',
+Setting:'Other',CultureImpression:'',OutsideClassrooms:''
+};
+try{const resp=await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+successCount++;}catch(e){errorCount++;console.error('Classroom '+i+' error:',e);}
+}
+
+// Submit site-level row
+let gt=0,gc=0;
+const slPayload={
+FormType:'SiteLevel',Site:site,Observer:obs,ObservationDate:date,
+ClassroomNum:'',Teacher:'',Subject:'Other',Activity:'Other',
+P1_Score:'',P2_Score:'',P3_Score:'',P4_Score:'',P5_Score:'',P6_Score:'',P7_Score:'',P8_Score:'',
+P1_Notes:slComments['P1']||'',P2_Notes:slComments['P2']||'',P3_Notes:slComments['P3']||'',P4_Notes:slComments['P4']||'',
+P5_Notes:slComments['P5']||'',P6_Notes:slComments['P6']||'',P7_Notes:slComments['P7']||'',P8_Notes:slComments['P8']||'',
+OverallPct:'',StrongestPrinciple:'',GrowthArea:'',
+Setting:v('sl-setting')||'Other',
+CultureImpression:v('sl-culture')||'',OutsideClassrooms:v('sl-outside')||''
+};
+
+// Calculate site-level averages for P scores
+P.forEach(p=>{let s=0,c=0;
+for(let i=0;i<numCR;i++){const vl=csD[i]?csD[i].r['P'+p.num]:null;if(vl&&vl!=='NO'){s+=vl;c++;gt+=vl;gc++;}}
+slPayload['P'+p.num+'_Score']=c>0?Math.round(s/c):'';});
+slPayload.OverallPct=gc>0?Math.round(gt/(gc*4)*100):'';
+
+// Add site-level indicator scores
+SLI.forEach(ind=>{const d=slIndData[ind.id];
+slPayload[ind.id+'_Score']=d?(d.score==='NO'?'NO':d.score):'';
+slPayload[ind.id+'_Notes']=d?d.notes||'':'';});
+
+try{const resp=await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(slPayload)});
+successCount++;}catch(e){errorCount++;console.error('Site-level error:',e);}
+
+}catch(e){errorCount++;console.error('Submit error:',e);}
+
+submitBtn.innerHTML=origText;submitBtn.disabled=false;
+
+if(errorCount===0){
+showToast('✓ '+successCount+' rows submitted to SharePoint!');
+document.getElementById('submit-modal').classList.add('show');
+}else{
+alert('Some submissions failed ('+errorCount+' errors, '+successCount+' succeeded).\n\nPlease use CSV Backup to save your data locally.');
+}
+}
 
 function exportCSV(){
 const now=new Date().toISOString().slice(0,19).replace('T',' ');
@@ -543,28 +687,39 @@ const obs=v('cs-obs')||'';
 const date=v('cs-date')||new Date().toISOString().slice(0,10);
 const setting=v('sl-setting')||'';
 
-let csv='FormType,ExportDate,Site,Observer,Date,ClassroomNum,Teacher,';
-csv+=P.map(p=>'P'+p.num+'_'+p.name.replace(/[\s\/]/g,'_')).join(',');
-csv+=',OverallPct,StrongestPrinciple,GrowthArea,Setting,CultureImpression,OutsideClassrooms\n';
+let csv='FormType,ExportDate,Site,Observer,Date,ClassroomNum,Teacher,Subject,Activity,';
+csv+=P.map(p=>'P'+p.num+'_'+p.name.replace(/[\s\/]/g,'_')+'_Score').join(',');
+csv+=','+P.map(p=>'P'+p.num+'_'+p.name.replace(/[\s\/]/g,'_')+'_Notes').join(',');
+csv+=',OverallPct,StrongestPrinciple,GrowthArea';
+csv+=','+SLI.map(s=>s.id+'_Score').join(',');
+csv+=','+SLI.map(s=>s.id+'_Notes').join(',');
+csv+=',Setting,CultureImpression,OutsideClassrooms\n';
 
 // Classroom rows
 for(let i=0;i<numCR;i++){if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
-csv+=`Classroom,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",${i+1},"${esc(csD[i].teacher)}",`;
-csv+=P.map(p=>csD[i].r['P'+p.num]||'').join(',');
-let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r){ts+=r;tp+=4;}});
+csv+=`Classroom,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",${i+1},"${esc(csD[i].teacher)}","${esc(csD[i].subject||'')}","${esc(csD[i].activity||'')}",`;
+csv+=P.map(p=>{const val=csD[i].r['P'+p.num];return val==='NO'?'N/O':(val||'');}).join(',');
+csv+=','+P.map(p=>'"'+esc(csD[i].n['P'+p.num]||'')+'"').join(',');
+let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r&&r!=='NO'){ts+=r;tp+=4;}});
 csv+=','+(tp>0?Math.round(ts/tp*100):'');
-csv+=`,"${esc(csD[i].impr.strong)}","${esc(csD[i].impr.grow)}","","",""`;
+csv+=`,"${esc(csD[i].impr.strong)}","${esc(csD[i].impr.grow)}"`;
+csv+=','+SLI.map(()=>'').join(',');
+csv+=','+SLI.map(()=>'""').join(',');
+csv+=`,"","",""`;
 csv+='\n';}
 
 // Site-Level summary row
 let gt=0,gc=0;
-csv+=`SiteLevel,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",,"",`;
-P.forEach((p,idx)=>{let s=0,c=0;
-for(let i=0;i<numCR;i++){const vl=csD[i]?csD[i].r['P'+p.num]:null;if(vl){s+=vl;c++;gt+=vl;gc++;}}
-csv+=(c>0?(s/c).toFixed(1):'');
-if(idx<P.length-1)csv+=',';});
+csv+=`SiteLevel,${now},"${esc(v('cs-site'))}","${esc(v('cs-obs'))}","${v('cs-date')}",,"","","",`;
+csv+=P.map(p=>{let s=0,c=0;
+for(let i=0;i<numCR;i++){const vl=csD[i]?csD[i].r['P'+p.num]:null;if(vl&&vl!=='NO'){s+=vl;c++;gt+=vl;gc++;}}
+return c>0?(s/c).toFixed(1):'';}).join(',');
+csv+=','+P.map(p=>'"'+esc(slComments['P'+p.num]||'')+'"').join(',');
 csv+=','+(gc>0?Math.round(gt/(gc*4)*100):'');
-csv+=`,"","","${esc(v('sl-setting'))}","${esc(v('sl-culture'))}","${esc(v('sl-outside'))}"`;
+csv+=`,"",""`;
+csv+=','+SLI.map(s=>{const d=slIndData[s.id];return d?((d.score==='NO')?'N/O':d.score):'';}).join(',');
+csv+=','+SLI.map(s=>{const d=slIndData[s.id];return '"'+esc(d?.notes||'')+'"';}).join(',');
+csv+=`,"${esc(v('sl-setting'))}","${esc(v('sl-culture'))}","${esc(v('sl-outside'))}"`;
 csv+='\n';
 
 const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
@@ -576,22 +731,76 @@ function v(id){const e=document.getElementById(id);return e?e.value:'';}
 function esc(s){return(s||'').replace(/"/g,'""');}
 
 function clearAll(){if(!confirm('Clear all data and start a new assessment? This cannot be undone.'))return;
-for(let i=0;i<MAX_CR;i++)csD[i]={r:{},n:{},teacher:'',impr:{strong:'',grow:''}};
+for(let i=0;i<MAX_CR;i++)csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',impr:{strong:'',grow:''}};
 numCR=1;buildAllCR();
 document.querySelectorAll('#pnl-cs > .card input,#pnl-cs > .card select').forEach(e=>{
 if(e.type==='date')e.value='';else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value='';});
-for(const k in slComments)delete slComments[k];slExtra.culture='';slExtra.outside='';
+for(const k in slComments)delete slComments[k];for(const k in slIndData)delete slIndData[k];slExtra.culture='';slExtra.outside='';
 document.querySelectorAll('#pnl-sl .fg input,#pnl-sl .fg select,#pnl-sl .fg textarea').forEach(e=>{
 if(e.type==='date')e.value='';else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value='';});
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('cs-date').value=today;document.getElementById('sl-date').value=today;
-updateSL();localStorage.removeItem(SAVE_KEY);updateProgress();showToast('Form cleared — ready for new assessment');}
+updateSL();localStorage.removeItem(SAVE_KEY);updateProgress();showToast('All data cleared');}
 
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+document.addEventListener('DOMContentLoaded',()=>{const restored=loadSaved();buildAllCR();buildSLShell();buildSLIndicators();updateProgress();
+if(restored){document.getElementById('restored-banner').style.display='block';}
+const today=new Date().toISOString().slice(0,10);
+if(!v('cs-date'))document.getElementById('cs-date').value=today;
+if(!v('sl-date'))document.getElementById('sl-date').value=today;});
 
-document.addEventListener('DOMContentLoaded',()=>{const restored=loadSaved();buildAllCR();buildSLShell();updateProgress();
-if(!restored){const today=new Date().toISOString().slice(0,10);document.getElementById('cs-date').value=today;document.getElementById('sl-date').value=today;}
-else{document.getElementById('restored-banner').style.display='block';}});
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+const SLI=[
+{id:'SL1',name:'Values Visible in Common Areas',desc:'Culture card happening; values language visible in hallways, office, cafeteria; staff-to-staff interactions reflect values',color:'var(--p1)'},
+{id:'SL2',name:'Enriched Environments School-Wide',desc:'Hallways, front office, and cafeteria are inviting and intentionally designed; student work displayed in common areas',color:'var(--p3)'},
+{id:'SL3',name:'PBIS / Behavior Expectations School-Wide',desc:'PBIS expectations visible throughout building; staff use positive interactions and de-escalation during transitions',color:'var(--p5)'},
+{id:'SL4',name:'Family & Community Engagement Visible',desc:'Evidence of family engagement, community partnerships, service learning displayed in common areas',color:'var(--p6)'},
+{id:'SL5',name:'Overall Culture & Climate',desc:'How does it feel when you walk in? Are visitors welcomed? Do staff and students greet each other naturally?',color:'var(--tcg-blue)'}
+];
+
+const slIndData={};
+
+function slIndRbH(id){return`<div class="rbs">${[4,3,2,1].map(v=>{
+const l={4:'Distinguished',3:'Proficient',2:'Satisfactory',1:'Needs Improvement'};
+return`<button class="rb" data-v="${v}" onclick="doSLIndRate('${id}',${v},this)" title="${v} — ${l[v]}"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}<button class="rb rb-no" data-v="0" onclick="doSLIndRateNO('${id}',this)" title="Not Observed"><span class="rbn" style="font-size:11px">N/O</span><span class="rbl">Not Observed</span></button></div>`;}
+
+function doSLIndRate(id,val,btn){
+btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');
+btn.classList.add('s'+val);
+slIndData[id]={score:val,notes:slIndData[id]?.notes||''};autoSave();}
+
+function doSLIndRateNO(id,btn){
+const reason=prompt('Why was this indicator not observed?');
+if(!reason||!reason.trim())return;
+btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');
+btn.classList.add('s-no');
+slIndData[id]={score:'NO',notes:'[N/O] '+reason.trim()};autoSave();}
+
+function buildSLIndicators(){
+const el=document.getElementById('sl-indicators');if(!el)return;
+let html='';
+SLI.forEach(ind=>{
+const saved=slIndData[ind.id]||{};
+html+=`<div class="pc open" style="margin-bottom:10px;">
+<div class="ph" onclick="this.closest('.pc').classList.toggle('open')" style="border-left:4px solid ${ind.color}">
+<div class="pn" style="background:${ind.color};width:34px;height:34px;font-size:13px;">★</div>
+<div class="ptx"><h3 style="font-size:13px;">${ind.name}</h3><div class="ps">${ind.desc}</div></div>
+<div class="pex">▼</div></div>
+<div class="pbd"><div class="pcx">
+<div class="rr"><span class="rl">Rating:</span>${slIndRbH(ind.id)}</div>
+<textarea class="ni" placeholder="Evidence / Notes..." oninput="if(!slIndData['${ind.id}'])slIndData['${ind.id}']={};slIndData['${ind.id}'].notes=this.value;autoSave()">${saved.notes||''}</textarea>
+</div></div></div>`;});
+el.innerHTML=html;
+// Restore saved ratings
+SLI.forEach(ind=>{
+const saved=slIndData[ind.id];
+if(saved&&saved.score){
+const container=el.querySelector(`[onclick="doSLIndRate('${ind.id}',${saved.score},this)"]`);
+if(saved.score==='NO'){
+const noBtn=el.querySelectorAll('.rb-no');
+noBtn.forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(ind.id))b.classList.add('s-no');});
+}else if(container){container.classList.add('s'+saved.score);}}});}
+
 </script>
 </body>
 </html>
