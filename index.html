@@ -219,12 +219,16 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div class="rk" style="flex-direction:column;align-items:stretch;padding:16px 20px;">
 <span class="rk-l" style="margin-bottom:8px;">Danielson Rating Scale</span>
 <table style="width:100%;border-collapse:collapse;font-size:12px;">
-<tr style="background:var(--tcg-blue);color:#fff;"><td style="padding:6px 10px;font-weight:700;width:60px;text-align:center;">Rating</td><td style="padding:6px 10px;font-weight:700;width:130px;">Level</td><td style="padding:6px 10px;font-weight:700;">Description</td></tr>
-<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">4</td><td style="padding:6px 10px;font-weight:700;">Distinguished</td><td style="padding:6px 10px;">Fully embedded in daily practice across all settings. Staff consistently demonstrate without prompting.</td></tr>
-<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">3</td><td style="padding:6px 10px;font-weight:700;">Proficient</td><td style="padding:6px 10px;">Consistently implemented with clear, observable evidence. Staff intentionally and regularly apply this principle.</td></tr>
-<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">2</td><td style="padding:6px 10px;font-weight:700;">Satisfactory</td><td style="padding:6px 10px;">Some evidence observed but inconsistent across settings or staff. Present but not yet routine.</td></tr>
-<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:var(--tcg-blue);">1</td><td style="padding:6px 10px;font-weight:700;">Needs Improvement</td><td style="padding:6px 10px;">Little or no evidence observed. Not yet part of daily practice; requires significant support.</td></tr>
+<tr style="background:var(--tcg-blue);color:#fff;"><td style="padding:6px 10px;font-weight:700;width:60px;text-align:center;">Rating</td><td style="padding:6px 10px;font-weight:700;width:130px;">Level</td><td style="padding:6px 10px;font-weight:700;">Classroom Observation</td></tr>
+<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:#2CB34A;">4</td><td style="padding:6px 10px;font-weight:700;color:#2CB34A;">Distinguished</td><td style="padding:6px 10px;">Evidence is <b>embedded</b> — visible in the environment, teacher behavior, student behavior, and interactions <b>without prompting</b>. Students and adults <b>independently</b> demonstrate this principle. It is clearly part of the classroom culture, not just an activity.</td></tr>
+<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:#00ACCD;">3</td><td style="padding:6px 10px;font-weight:700;color:#00ACCD;">Proficient</td><td style="padding:6px 10px;">Evidence is <b>clear and intentional</b> — the teacher is <b>deliberately</b> implementing this principle during instruction. Observable in <b>multiple</b> areas (e.g., environment and instruction, or instruction and interactions). Students are <b>actively engaged</b> with the principle.</td></tr>
+<tr style="background:#E0ECFF;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:#F47721;">2</td><td style="padding:6px 10px;font-weight:700;color:#F47721;">Satisfactory</td><td style="padding:6px 10px;">Evidence is <b>partial or inconsistent</b> — you see it in <b>one area but not others</b> (e.g., posted on walls but not in instruction, or teacher models it but students don't). Implementation appears <b>uneven</b> or happening only when prompted.</td></tr>
+<tr><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:16px;color:#DC3545;">1</td><td style="padding:6px 10px;font-weight:700;color:#DC3545;">Needs Improvement</td><td style="padding:6px 10px;"><b>Little or no evidence</b> observed. The principle is <b>absent from the environment, instruction, and interactions</b>. If present at all, it is superficial (e.g., a poster on the wall with no connection to practice).</td></tr>
+<tr style="background:#f5f5f5;"><td style="padding:6px 10px;text-align:center;font-weight:800;font-size:14px;color:#999;">N/O</td><td style="padding:6px 10px;font-weight:700;color:#666;">Not Observed</td><td style="padding:6px 10px;color:#666;">Could not be assessed during this observation due to the activity, time, or context (e.g., students were testing, observer was only in room briefly). A reason is required. <b>Excluded from fidelity scoring.</b></td></tr>
 </table>
+<div style="margin-top:10px;padding:8px 12px;background:#f0e2ef;border-radius:8px;font-size:11px;color:#953192;">
+<b>Site-Level Indicators</b> use the same 1–4 scale but assess school-wide evidence: common areas, hallways, front office, staff interactions, and visible culture across the building — not individual classrooms.
+</div>
 </div>
 
 <div class="crt" id="crt"></div>
@@ -248,6 +252,11 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 </div></div>
 
 <!-- Classroom impressions pulled over -->
+<div class="card" id="sl-duration-card" style="display:none">
+<h2>Observation Summary</h2>
+<div id="sl-duration-summary" style="font-size:14px;color:var(--dg);"></div>
+</div>
+
 <div class="card" id="sl-impr-card" style="display:none">
 <h2>Classroom Impressions</h2>
 <div id="sl-impr"></div>
@@ -257,10 +266,11 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <div id="sl-rows"></div>
 
 <div class="sc" id="sl-scores" style="display:none">
-<h2>Site Fidelity Score</h2>
+<h2>Classroom-Level Fidelity</h2>
+<p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Average scores across all observed classrooms</p>
 <div class="sg" id="sl-grid"></div>
 <div class="ob">
-<div class="obl">Overall Site Fidelity</div>
+<div class="obl">Classroom-Level Fidelity Score</div>
 <div class="obp" id="sl-pct">—</div>
 <div class="obs" id="sl-sts">—</div>
 <div class="fb"><div class="ff" id="sl-ff" style="width:0%"></div></div>
@@ -279,6 +289,17 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 <p style="font-size:13px;color:#666;margin-bottom:16px;">Rate these school-wide indicators using the same Danielson scale (1–4) or N/O if not observed.</p>
 <div id="sl-indicators"></div>
 </div>
+
+<div class="sc" id="sl-ind-scores" style="display:none;margin-top:16px;">
+<h2>Site-Level Fidelity</h2>
+<p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">School-wide indicator scores</p>
+<div class="sg" id="sl-ind-grid"></div>
+<div class="ob" style="background:linear-gradient(135deg,#953192,#002C43);">
+<div class="obl">Site-Level Fidelity Score</div>
+<div class="obp" id="sl-ind-pct">—</div>
+<div class="obs" id="sl-ind-sts">Rate site-level indicators to see score</div>
+<div class="fb"><div class="ff" id="sl-ind-ff" style="width:0%"></div></div>
+</div></div>
 </div>
 
 </main>
@@ -298,15 +319,26 @@ body{background:#fff;}.main{max-width:100%;padding:0 12px;}
 </div>
 </div>
 
+<div class="modal-overlay" id="review-modal" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="modal-box" style="max-width:600px;">
+<div class="modal-icon">📋</div>
+<h3>Review Before Submitting</h3>
+<p class="modal-msg">Please confirm your data is complete and accurate.</p>
+<div id="review-content"></div>
+<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">
+<button class="modal-btn" style="background:#999;" onclick="document.getElementById('review-modal').classList.remove('show')">Go Back</button>
+<button class="modal-btn" style="background:#2CB34A;" onclick="doFinalSubmit()">✓ Confirm & Submit</button>
+</div>
+</div>
+</div>
+
 <div class="modal-overlay" id="submit-modal" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="modal-box">
 <div class="modal-icon">✅</div>
 <h3>Submitted to SharePoint!</h3>
-<p class="modal-msg">Your classroom and site-level data has been saved directly to the TranZed 8 database. No email needed.</p>
+<p class="modal-msg">Your classroom and site-level data has been saved. The TranZed 8 team will review and analyze the data.</p>
 <div class="modal-email" style="background:#E5F7EA;">
-<b style="color:#2CB34A;">What happens next:</b><br>
-Data appears in the SharePoint list within seconds.<br>
-Elizabeth will review and follow up.
+<b style="color:#2CB34A;">Thank you for your observation!</b>
 </div>
 <button class="modal-btn" style="background:#2CB34A;" onclick="document.getElementById('submit-modal').classList.remove('show')">Done</button>
 </div>
@@ -351,8 +383,8 @@ lookfor:"Students take ownership and are active participants; collaborative prob
 ];
 
 const MAX_CR=4;let numCR=1;const csD={};const slComments={};const slExtra={culture:'',outside:''};
-function initCR(i){if(!csD[i])csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',impr:{strong:'',grow:''}};
-if(!csD[i].subject)csD[i].subject='';if(!csD[i].activity)csD[i].activity='';}
+function initCR(i){if(!csD[i])csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',duration:'',impr:{strong:'',grow:''}};
+if(!csD[i].subject)csD[i].subject='';if(!csD[i].activity)csD[i].activity='';if(!csD[i].duration)csD[i].duration='';}
 
 const SAVE_KEY='tranzed8_session';let saveTimer=null;
 function autoSave(){if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(doSave,800);}
@@ -385,10 +417,11 @@ if(d.meta.slOutside)document.getElementById('sl-outside').value=d.meta.slOutside
 
 function rbH(pre,id){return`<div class="rbs">${[4,3,2,1].map(v=>{
 const l={4:'Distinguished',3:'Proficient',2:'Satisfactory',1:'Needs Improvement'};
-const tt={4:'Fully embedded in daily practice across all settings. Staff consistently demonstrate without prompting.',3:'Consistently implemented with clear, observable evidence. Staff intentionally and regularly apply this principle.',2:'Some evidence observed but inconsistent across settings or staff. Present but not yet routine.',1:'Little or no evidence observed. Not yet part of daily practice; requires significant support.'};
+const tt={4:'EMBEDDED — visible in environment, teacher, students, and interactions without prompting. Part of the culture.',3:'CLEAR & INTENTIONAL — teacher deliberately implements; observable in multiple areas; students actively engaged.',2:'PARTIAL — evidence in one area but not others; implementation is uneven or only when prompted.',1:'ABSENT — little or no evidence in environment, instruction, or interactions.'};
 return`<button class="rb" data-v="${v}" onclick="doRate('${pre}','${id}',${v},this)" title="${v} — ${l[v]}: ${tt[v]}"><span class="rbn">${v}</span><span class="rbl">${l[v]}</span></button>`;}).join('')}<button class="rb rb-no" data-v="0" onclick="doRateNO('${pre}','${id}',this)" title="Not Observed — excluded from scoring"><span class="rbn" style="font-size:11px">N/O</span><span class="rbl">Not Observed</span></button></div>`;}
 
 function doRateNO(pre,id,btn){
+if(!checkHeaderComplete())return;
 const idx=parseInt(pre.replace('cs',''));
 const reason=prompt('Why was this principle not observed?\n\nExamples:\n• Class was testing\n• Only in room briefly\n• Activity did not allow observation');
 if(!reason||!reason.trim()){return;}
@@ -401,9 +434,14 @@ const tab=document.querySelectorAll('.crb')[idx];
 if(tab&&Object.keys(csD[idx].r).length>0)tab.classList.add('hd');
 updateCRS(idx);updateProgress();autoSave();}
 
+function checkHeaderComplete(){
+const site=v('cs-site');const obs=v('cs-obs');const date=v('cs-date');
+if(!site||!obs||!date){alert('Please complete Visit Details (Site, Observer, and Date) before rating classrooms.');return false;}
+return true;}
+
 function buildCRT(){const el=document.getElementById('crt');el.innerHTML='';
-for(let i=0;i<numCR;i++){initCR(i);const hd=Object.keys(csD[i].r).length>0;
-el.innerHTML+=`<button class="crb ${i===0?'act':''} ${hd?'hd':''}" onclick="swCR(${i},this)">Classroom ${i+1}<span class="dot"></span></button>`;}
+for(let i=0;i<numCR;i++){initCR(i);const rated=Object.keys(csD[i].r).length;const complete=rated>=8;const started=rated>0;
+el.innerHTML+=`<button class="crb ${i===0?'act':''} ${complete?'hd':started?'hd':''}" onclick="swCR(${i},this)">Classroom ${i+1}<span class="dot" style="background:${complete?'#2CB34A':started?'var(--tcg-orange)':'#ccc'}"></span> <span style="font-size:10px;color:${complete?'#2CB34A':started?'var(--tcg-orange)':'#999'};margin-left:2px;">${rated}/8</span></button>`;}
 if(numCR<MAX_CR)el.innerHTML+=`<button class="btn-add" onclick="addCR()">+ Add Classroom</button>`;}
 
 function buildCRP(idx){initCR(idx);
@@ -430,6 +468,11 @@ let h=`<div class="crp ${idx===0?'act':''}" id="crp-${idx}">
 <option ${csD[idx].activity==='Free play'?'selected':''}>Free play</option>
 <option ${csD[idx].activity==='Testing'?'selected':''}>Testing</option>
 <option ${csD[idx].activity==='Other'?'selected':''}>Other</option></select></div>
+<div class="fg"><label>Visit Duration</label>
+<select onchange="csD[${idx}].duration=this.value;autoSave()">
+<option value="">Select...</option><option ${csD[idx].duration==='5 minutes'?'selected':''}>5 minutes</option><option ${csD[idx].duration==='10 minutes'?'selected':''}>10 minutes</option>
+<option ${csD[idx].duration==='15 minutes'?'selected':''}>15 minutes</option>
+<option ${csD[idx].duration==='20 minutes'?'selected':''}>20 minutes</option><option ${csD[idx].duration==='25 minutes'?'selected':''}>25 minutes</option><option ${csD[idx].duration==='30 minutes'?'selected':''}>30 minutes</option><option ${csD[idx].duration==='45 minutes'?'selected':''}>45 minutes</option><option ${csD[idx].duration==='60 minutes'?'selected':''}>60 minutes</option></select></div>
 </div></div>`;
 P.forEach(p=>{h+=`<div class="pc open" id="cs${idx}-c${p.num}">
 <div class="ph" onclick="this.closest('.pc').classList.toggle('open')" style="border-left:4px solid ${p.color}">
@@ -444,9 +487,9 @@ P.forEach(p=>{h+=`<div class="pc open" id="cs${idx}-c${p.num}">
 <div class="rr"><span class="rl">Rating:</span>${rbH('cs'+idx,'P'+p.num)}</div>
 <textarea class="ni" placeholder="Evidence / Notes..." oninput="csD[${idx}].n['P${p.num}']=this.value;autoSave()">${csD[idx].n['P'+p.num]||''}</textarea>
 </div></div></div>`;});
-h+=`<div class="sc" id="cs${idx}-sc"><h2>Classroom ${idx+1} Score</h2>
+h+=`<div class="sc" id="cs${idx}-sc"><h2>Classroom ${idx+1} Fidelity</h2>
 <div class="sg" id="cs${idx}-sg"></div>
-<div class="ob"><div class="obl">Classroom ${idx+1} Fidelity</div>
+<div class="ob"><div class="obl">Classroom ${idx+1} Fidelity Score</div>
 <div class="obp" id="cs${idx}-pct">—</div><div class="obs" id="cs${idx}-sts">Rate all principles to see score</div>
 <div class="fb"><div class="ff" id="cs${idx}-ff" style="width:0%"></div></div></div></div>`;
 h+=`<div class="card" style="margin-top:12px"><h2>Classroom ${idx+1} Impression</h2>
@@ -469,13 +512,29 @@ card.querySelectorAll('.rb').forEach(b=>{if(parseInt(b.dataset.v)===val)b.classL
 const bg=document.getElementById(`cs${i}-b${p.num}`);if(bg)bg.textContent=val+'/4';
 const tl=document.getElementById(`cs${i}-t${p.num}`);if(tl)tl.textContent=val+'/4';}}});updateCRS(i);}}
 
-function addCR(){if(numCR>=MAX_CR)return;numCR++;buildAllCR();swCR(numCR-1,document.querySelectorAll('.crb')[numCR-1]);updateProgress();autoSave();}
-function swCR(i,btn){document.querySelectorAll('.crb').forEach(b=>b.classList.remove('act'));
+function addCR(){if(numCR>=MAX_CR)return;
+// Check if current classroom is started but incomplete
+const currentIdx=document.querySelector('.crb.act');
+if(currentIdx){
+const idx=Array.from(document.querySelectorAll('.crb')).indexOf(currentIdx);
+if(idx>=0&&csD[idx]){const rated=Object.keys(csD[idx].r).length;
+if(rated>0&&rated<8){if(!confirm('Classroom '+(idx+1)+' has '+rated+'/8 principles rated.\n\nAre you sure you want to add a new classroom before finishing?'))return;}}}
+numCR++;buildAllCR();swCR(numCR-1,document.querySelectorAll('.crb')[numCR-1]);updateProgress();autoSave();}
+
+function swCR(i,btn){
+// Check if current classroom is started but incomplete
+const currentBtn=document.querySelector('.crb.act');
+if(currentBtn&&currentBtn!==btn){
+const currentIdx=Array.from(document.querySelectorAll('.crb')).indexOf(currentBtn);
+if(currentIdx>=0&&csD[currentIdx]){const rated=Object.keys(csD[currentIdx].r).length;
+if(rated>0&&rated<8){if(!confirm('Classroom '+(currentIdx+1)+' has '+rated+'/8 principles rated.\n\nSwitch anyway?'))return;}}}
+document.querySelectorAll('.crb').forEach(b=>b.classList.remove('act'));
 document.querySelectorAll('.crp').forEach(p=>p.classList.remove('act'));
 btn.classList.add('act');const p=document.getElementById('crp-'+i);if(p)p.classList.add('act');}
 
 function doRate(pre,id,val,btn){
-btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className='rb');btn.classList.add('s'+val);
+if(!checkHeaderComplete())return;
+btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');btn.classList.add('s'+val);
 const idx=parseInt(pre.replace('cs',''));csD[idx].r[id]=val;
 const bg=document.getElementById(pre+'-b'+id.replace('P',''));if(bg)bg.textContent=val+'/4';
 const tl=document.getElementById(pre+'-t'+id.replace('P',''));if(tl)tl.textContent=val+'/4';
@@ -484,16 +543,34 @@ if(tab&&Object.keys(csD[idx].r).length>0)tab.classList.add('hd');
 updateCRS(idx);updateProgress();autoSave();}
 
 function updateProgress(){
-let completed=0;let total=numCR;
-for(let i=0;i<numCR;i++){if(csD[i]&&Object.keys(csD[i].r).length>=8)completed++;}
+let completed=0;let started=0;let total=numCR;
+for(let i=0;i<numCR;i++){
+const rated=csD[i]?Object.keys(csD[i].r).length:0;
+if(rated>=8)completed++;else if(rated>0)started++;}
 const txt=document.getElementById('progress-text');
-if(txt)txt.textContent=completed+' of '+total+' classroom'+(total!==1?'s':'')+' complete';
+if(txt){
+if(completed===total)txt.textContent='✓ All '+total+' classroom'+(total!==1?'s':'')+' complete';
+else txt.textContent=completed+' complete, '+(started)+' in progress of '+total+' classroom'+(total!==1?'s':'');}
 const dots=document.getElementById('prog-dots');
 if(dots){let html='';for(let i=0;i<numCR;i++){
-const cls=csD[i]&&Object.keys(csD[i].r).length>=8?'done':Object.keys(csD[i]?.r||{}).length>0?'active':'';
-html+='<div class="prog-dot '+cls+'"></div>';}dots.innerHTML=html;}}
+const rated=csD[i]?Object.keys(csD[i].r).length:0;
+const cls=rated>=8?'done':rated>0?'active':'';
+html+='<div class="prog-dot '+cls+'" title="Classroom '+(i+1)+': '+rated+'/8 rated"></div>';}dots.innerHTML=html;}
+buildCRT();}
 
-function updateCRS(idx){let ts=0,tp=0;P.forEach(p=>{const val=csD[idx].r['P'+p.num];if(val&&val!=='NO'){ts+=val;tp+=4;}});setOB(`cs${idx}`,ts,tp);}
+function updateCRS(idx){let ts=0,tp=0;P.forEach(p=>{
+const val=csD[idx].r['P'+p.num];
+if(val&&val!=='NO'){ts+=val;tp+=4;}
+// Color-code tile
+const tl=document.getElementById(`cs${idx}-t${p.num}`);
+if(tl){
+if(val==='NO'){tl.textContent='N/O';tl.style.color='#999';}
+else if(val){tl.textContent=val+'/4';
+if(val>=4)tl.style.color='#2CB34A';
+else if(val>=3)tl.style.color='#00ACCD';
+else if(val>=2)tl.style.color='#F47721';
+else tl.style.color='#DC3545';}
+}});setOB(`cs${idx}`,ts,tp);}
 
 // ===== SITE-LEVEL =====
 function buildSLShell(){const grid=document.getElementById('sl-grid');
@@ -545,10 +622,30 @@ const hasAny=Object.values(csD).some(d=>d&&Object.keys(d.r).length>0);
 
 if(!hasAny){
 wrap.innerHTML=`<div class="no-data"><div class="nd-i">📋</div>Complete your Classroom Snapshots first — your scores will appear here automatically.</div>`;
-scores.style.display='none';document.getElementById('sl-impr-card').style.display='none';return;}
+scores.style.display='none';document.getElementById('sl-impr-card').style.display='none';
+document.getElementById('sl-duration-card').style.display='none';return;}
 scores.style.display='block';
 
+// Duration summary
+let totalMin=0;let crCount=0;
+for(let i=0;i<numCR;i++){
+if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
+crCount++;
+const dur=csD[i].duration||'';
+const mins=parseInt(dur);if(!isNaN(mins))totalMin+=mins;}
+const durCard=document.getElementById('sl-duration-card');
+const durSummary=document.getElementById('sl-duration-summary');
+if(crCount>0){
+durCard.style.display='block';
+durSummary.innerHTML=`<div style="display:flex;gap:20px;flex-wrap:wrap;">
+<div><span style="font-weight:800;color:var(--tcg-blue);font-size:24px;">${crCount}</span> <span style="color:#888;">classroom${crCount!==1?'s':''} observed</span></div>
+<div><span style="font-weight:800;color:var(--tcg-orange);font-size:24px;">${totalMin>0?totalMin+' min':'—'}</span> <span style="color:#888;">total time in classrooms</span></div>
+</div>`;}
+
 buildImpressions();
+
+// Update site-level indicator scores
+updateSLIndScores();
 
 let html='',gt=0,gc=0;
 P.forEach(p=>{
@@ -604,9 +701,39 @@ if(!site||!obs||!date){alert('Please fill in Site, Observer, and Date before sub
 const hasData=Object.values(csD).some(d=>d&&Object.keys(d.r).length>0);
 if(!hasData){alert('No classroom data to submit. Rate at least one principle first.');return;}
 
-if(!confirm('Submit all data to SharePoint?\n\nThis will send classroom and site-level data.\nYou can also download a CSV backup afterward.')){return;}
+// Check for incomplete classrooms
+let incomplete=[];
+for(let i=0;i<numCR;i++){const rated=csD[i]?Object.keys(csD[i].r).length:0;
+if(rated>0&&rated<8)incomplete.push('Classroom '+(i+1)+': '+rated+'/8 rated');}
+if(incomplete.length>0){
+if(!confirm('The following classrooms are incomplete:\n\n'+incomplete.join('\n')+'\n\nAll 8 principles should be rated (or marked N/O).\n\nSubmit anyway?'))return;}
 
-const submitBtn=document.querySelector('.bh-o[onclick*="submitToSharePoint"]');
+// Build review summary
+let reviewHTML='<div style="max-height:400px;overflow-y:auto;text-align:left;font-size:13px;">';
+reviewHTML+='<div style="margin-bottom:12px;padding:10px;background:#E0ECFF;border-radius:8px;"><b>Site:</b> '+site+' | <b>Observer:</b> '+obs+' | <b>Date:</b> '+date+'</div>';
+for(let i=0;i<numCR;i++){
+if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
+let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r&&r!=='NO'){ts+=r;tp+=4;}});
+const pct=tp>0?Math.round(ts/tp*100):'—';
+reviewHTML+='<div style="margin-bottom:8px;padding:10px;background:#f5f6f8;border-radius:8px;border-left:4px solid var(--tcg-orange);">';
+reviewHTML+='<b>Classroom '+(i+1)+'</b>: '+(csD[i].teacher||'No teacher')+(csD[i].subject?' | '+csD[i].subject:'')+(csD[i].activity?' | '+csD[i].activity:'')+(csD[i].duration?' | '+csD[i].duration:'');
+reviewHTML+=' — <b>'+pct+'%</b> ('+Object.keys(csD[i].r).length+'/8 rated)<br>';
+reviewHTML+='<span style="color:#888;">';
+P.forEach(p=>{const val=csD[i].r['P'+p.num];
+const color=val==='NO'?'#999':val>=4?'#2CB34A':val>=3?'#00ACCD':val>=2?'#F47721':'#DC3545';
+reviewHTML+='<span style="color:'+color+';font-weight:700;">P'+p.num+':'+(val==='NO'?'N/O':val||'—')+' </span>';});
+reviewHTML+='</span></div>';}
+reviewHTML+='</div>';
+
+document.getElementById('review-content').innerHTML=reviewHTML;
+document.getElementById('review-modal').classList.add('show');}
+
+async function doFinalSubmit(){
+document.getElementById('review-modal').classList.remove('show');
+const site=v('cs-site');const obs=v('cs-obs');const date=v('cs-date');
+const duration=v('cs-duration')||'';
+
+const submitBtn=document.querySelector('[onclick*="submitToSharePoint"]');
 const origText=submitBtn.innerHTML;
 submitBtn.innerHTML='⏳ Submitting...';submitBtn.disabled=true;
 
@@ -618,9 +745,9 @@ for(let i=0;i<numCR;i++){
 if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
 let ts=0,tp=0;P.forEach(p=>{const r=csD[i].r['P'+p.num];if(r&&r!=='NO'){ts+=r;tp+=4;}});
 const payload={
-FormType:'Classroom',Site:site,Observer:obs,ObservationDate:date,
+FormType:'Classroom',Site:site,Observer:obs,ObservationDate:date,VisitDuration:duration,
 ClassroomNum:i+1,Teacher:csD[i].teacher||'',
-Subject:csD[i].subject||'Other',Activity:csD[i].activity||'Other',
+Subject:csD[i].subject||'Other',Activity:csD[i].activity||'Other',VisitDuration:csD[i].duration||'',
 P1_Score:csD[i].r['P1']===undefined?'':csD[i].r['P1']==='NO'?'NO':csD[i].r['P1'],
 P2_Score:csD[i].r['P2']===undefined?'':csD[i].r['P2']==='NO'?'NO':csD[i].r['P2'],
 P3_Score:csD[i].r['P3']===undefined?'':csD[i].r['P3']==='NO'?'NO':csD[i].r['P3'],
@@ -643,9 +770,15 @@ successCount++;}catch(e){errorCount++;console.error('Classroom '+i+' error:',e);
 
 // Submit site-level row
 let gt=0,gc=0;
+// Calculate total duration
+let totalDur=0;
+for(let i=0;i<numCR;i++){if(!csD[i]||Object.keys(csD[i].r).length===0)continue;
+const mins=parseInt(csD[i].duration);if(!isNaN(mins))totalDur+=mins;}
+
 const slPayload={
 FormType:'SiteLevel',Site:site,Observer:obs,ObservationDate:date,
-ClassroomNum:'',Teacher:'',Subject:'Other',Activity:'Other',
+ClassroomNum:'',Teacher:'',Subject:'Other',Activity:'Other',VisitDuration:totalDur>0?totalDur+' minutes':'',
+TotalVisitDuration:totalDur>0?totalDur:'',
 P1_Score:'',P2_Score:'',P3_Score:'',P4_Score:'',P5_Score:'',P6_Score:'',P7_Score:'',P8_Score:'',
 P1_Notes:slComments['P1']||'',P2_Notes:slComments['P2']||'',P3_Notes:slComments['P3']||'',P4_Notes:slComments['P4']||'',
 P5_Notes:slComments['P5']||'',P6_Notes:slComments['P6']||'',P7_Notes:slComments['P7']||'',P8_Notes:slComments['P8']||'',
@@ -731,7 +864,7 @@ function v(id){const e=document.getElementById(id);return e?e.value:'';}
 function esc(s){return(s||'').replace(/"/g,'""');}
 
 function clearAll(){if(!confirm('Clear all data and start a new assessment? This cannot be undone.'))return;
-for(let i=0;i<MAX_CR;i++)csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',impr:{strong:'',grow:''}};
+for(let i=0;i<MAX_CR;i++)csD[i]={r:{},n:{},teacher:'',subject:'',activity:'',duration:'',impr:{strong:'',grow:''}};
 numCR=1;buildAllCR();
 document.querySelectorAll('#pnl-cs > .card input,#pnl-cs > .card select').forEach(e=>{
 if(e.type==='date')e.value='';else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value='';});
@@ -747,6 +880,22 @@ if(restored){document.getElementById('restored-banner').style.display='block';}
 const today=new Date().toISOString().slice(0,10);
 if(!v('cs-date'))document.getElementById('cs-date').value=today;
 if(!v('sl-date'))document.getElementById('sl-date').value=today;});
+
+function updateSLIndScores(){
+const grid=document.getElementById('sl-ind-grid');
+const scoreCard=document.getElementById('sl-ind-scores');
+let hasAnyInd=false;let ts=0,tp=0;
+if(grid){grid.innerHTML='';
+SLI.forEach(ind=>{
+const d=slIndData[ind.id];
+const score=d?d.score:null;
+const display=score==='NO'?'N/O':score?score+'/4':'—';
+const color=score==='NO'?'#999':score>=4?'#2CB34A':score>=3?'#00ACCD':score>=2?'#F47721':score>=1?'#DC3545':'inherit';
+if(score&&score!=='NO'){ts+=score;tp+=4;hasAnyInd=true;}
+else if(score==='NO'){hasAnyInd=true;}
+grid.innerHTML+=`<div class="st" style="background:#f5f6f8;color:${color}"><div class="stl" style="color:#888;">${ind.id}</div><div class="stv" style="color:${color}">${display}</div></div>`;});}
+if(hasAnyInd){scoreCard.style.display='block';setOB('sl-ind',ts,tp);}
+else{scoreCard.style.display='none';}}
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
@@ -767,14 +916,14 @@ return`<button class="rb" data-v="${v}" onclick="doSLIndRate('${id}',${v},this)"
 function doSLIndRate(id,val,btn){
 btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');
 btn.classList.add('s'+val);
-slIndData[id]={score:val,notes:slIndData[id]?.notes||''};autoSave();}
+slIndData[id]={score:val,notes:slIndData[id]?.notes||''};updateSLIndScores();autoSave();}
 
 function doSLIndRateNO(id,btn){
 const reason=prompt('Why was this indicator not observed?');
 if(!reason||!reason.trim())return;
 btn.parentElement.querySelectorAll('.rb').forEach(b=>b.className=b.classList.contains('rb-no')?'rb rb-no':'rb');
 btn.classList.add('s-no');
-slIndData[id]={score:'NO',notes:'[N/O] '+reason.trim()};autoSave();}
+slIndData[id]={score:'NO',notes:'[N/O] '+reason.trim()};updateSLIndScores();autoSave();}
 
 function buildSLIndicators(){
 const el=document.getElementById('sl-indicators');if(!el)return;
